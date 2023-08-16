@@ -77,7 +77,7 @@ ZSH_THEME="jonathan"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vscode zsh-autosuggestions)
+plugins=(git vscode zsh-autosuggestions sudo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,3 +118,4 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 source /home/soshi/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
