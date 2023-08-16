@@ -1,0 +1,30 @@
+#! /bin/sh
+pkill sxhkd
+sxhkd &
+
+bspc monitor DP-0 -n monitor0 -d I II III IV 
+bspc monitor HDMI-0 -d V VI VII VIII
+
+bspc config border_width         2
+bspc config window_gap           8
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc monitor -f ^1
+
+# bar
+polybar &
+
+# scratchpad/dropdown terminal
+alacritty -t scratchpad -d 0 0 &
+
+nitrogen --restore &
+
+pkill picom
+picom -f --daemon --config "${HOME}/.config/picom/picom.conf" &
+
+bspc rule -a btop desktop=^5 state=floating
+btop &
+
