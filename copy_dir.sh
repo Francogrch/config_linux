@@ -8,10 +8,11 @@ declare -A folders=(
     ["sxhkd"]="/home/soshi/.config/sxhkd"
     ["alacritty"]="/home/soshi/.config/alacritty"
     ["kitty"]="/home/soshi/.config/kitty"
-    ["zsh"]="/home/soshi/.zshrc"
+    ["zshrc"]="/home/soshi/.zshrc"
     ["oh-my-zsh"]="/home/soshi/.oh-my-zsh"
     ["picom"]="/home/soshi/.config/picom"
-)
+    ["conkyrc"]="/home/soshi/.conkyrc"
+  )
 
 # Ruta destino (carpeta actual)
 destination="$(pwd)"
