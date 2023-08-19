@@ -1,0 +1,26 @@
+wifi:
+  nmcli r wifi on
+  nmcli d wifi list
+  nmcli d wifi connect NAME password PASSWORD
+  
+sudo pacman -S lightdm lightdm-gtk-greeter
+sudo vim /etc/lightdm/lightdm.config 
+  greeter-session=lightdm-gtk-greeter
+sudo systemctl enable lightdm.service 
+
+sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky arandr polybar zsh nvim
+
+nvim .xprofile
+    sxhkd &
+    exec bspwm
+mkdir .config
+cd .config
+mkdir bspwm
+mkdir sxhkd
+cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
+cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
+nvim ~/.config/sxhkd/sxhkdrc
+  # terminal emulador
+  super + Return
+      alacritty
+reboot

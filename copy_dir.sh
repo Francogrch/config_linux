@@ -12,7 +12,9 @@ declare -A folders=(
     ["oh-my-zsh"]="/home/soshi/.oh-my-zsh"
     ["picom"]="/home/soshi/.config/picom"
     ["conkyrc"]="/home/soshi/.conkyrc"
+    ["scripts"]="/home/soshi/scripts/"
   )
+
 
 # Ruta destino (carpeta actual)
 destination="$(pwd)"
