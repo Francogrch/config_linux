@@ -8,7 +8,7 @@ sudo vim /etc/lightdm/lightdm.config
   greeter-session=lightdm-gtk-greeter
 sudo systemctl enable lightdm.service 
 
-sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky arandr polybar zsh nvim
+sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky arandr git polybar zsh nvim lsd bat zsh-syntax-highlighting
 
 nvim .xprofile
     sxhkd &
