@@ -8,7 +8,7 @@ sudo vim /etc/lightdm/lightdm.config
   greeter-session=lightdm-gtk-greeter
 sudo systemctl enable lightdm.service 
 
-sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky wget arandr pulsemixer git polybar zsh nvim lsd bat
+sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
 
 
 nvim .profile
@@ -34,7 +34,13 @@ reboot
 
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
-mv fonts* usr/share/fonts/TTF 
+mv fonts/* usr/share/fonts/TTF 
+nvim ~/.config/alacritty/alacritty.yml
+  font:
+    normal:
+      family: "MesloLGS NF"
+
+mv spotlight-dark.rasi /home/soshi/.local/share/rofi/themes
 
 Install package:
   oh-my-zsh:wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
