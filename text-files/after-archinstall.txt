@@ -80,6 +80,9 @@ mkdir /home/soshi/.local/share/rofi/
 mkdir /home/soshi/.local/share/rofi/themes
 mv spotlight-dark.rasi /home/soshi/.local/share/rofi/themes/
 
+
+yay -S onlyoffice-bin
+
 Install package:
   oh-my-zsh:wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh
   powerlevel10k: yay -S --noconfirm zsh-theme-powerlevel10k-git
