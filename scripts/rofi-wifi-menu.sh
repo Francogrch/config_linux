@@ -11,13 +11,14 @@ YOFF=0
 XOFF=0
 FONT="DejaVu Sans Mono 8"
 
-if [ -r "$DIR/config" ]; then
-	source "$DIR/config"
-elif [ -r "$HOME/.config/rofi/wifi" ]; then
-	source "$HOME/.config/rofi/wifi"
-else
-	echo "WARNING: config file not found! Using default values."
-fi
+
+# if [ -r "$DIR/config" ]; then
+# 	source "$DIR/config"
+# elif [ -r "$HOME/.config/rofi/wifi" ]; then
+# 	source "$HOME/.config/rofi/wifi"
+# else
+# 	echo "WARNING: config file not found! Using default values."
+# fi
 
 LIST=$(nmcli --fields "$FIELDS" device wifi list | sed '/^--/d')
 # For some reason rofi always approximates character width 2 short... hmmm
