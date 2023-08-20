@@ -1,22 +1,24 @@
-wifi en terminal:
+# wifi en terminal
   nmcli r wifi on
   nmcli d wifi list
   nmcli d wifi connect NAME password PASSWORD
 
 
-
+# install session
 sudo pacman -S lightdm lightdm-gtk-greeter
 sudo vim /etc/lightdm/lightdm.config 
   greeter-session=lightdm-gtk-greeter
 sudo systemctl enable lightdm.service 
 
+# install package
 sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar iw neofetch htop btop alacritty brightnessctl conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
 
-
+# Variable Home
 nvim .profile
   XDG_CONFIG_HOME="$HOME/.config"
   export XDG_CONFIG_HOME 
 
+# Boot bspwm sxhkd
 nvim .xprofile
     sxhkd &
     exec bspwm
@@ -33,57 +35,25 @@ nvim ~/.config/sxhkd/sxhkdrc
 chsh -s /bin/zsh
 reboot
 
-EDITAR:
-nvim bspwmrc
-  bspc monitor -d I II III IV
-
-nvim sxhkdrc
-  super + alt + i
-    bash /home/soshi/scripts/rofi-wifi-menu.sh
-  super + e
-    thunar
-  #Volumen
-  XF86Audio{Mute,LowerVolume,RaiseVolume}
-	  pactl set-sink-{mute 0 toggle,volume 0 -5%,volume 0 +5%}
-  #Brillo
-  XF86MonBrightness{Up,Down}
-    brightnessctl set {+5%,5%-}
-  # Bluetooth
-  alt + F4
-	  blueberry
-
-nvim .zshrc
-  # comment last line 
-  export PATH="/home/soshi/.local/bin:$PATH"
-
-nvim alacritty.yml
-  shell:
-    program: /bin/zsh
-
-nvim conkyrc
-  gap_x 10
-  # varNet = nmcli dev status 
-  # NETWORK
-  ${template3 varNet NETWORK}
-
-nvim polybar
-  copiar note
-
+# AUR 
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
+#Fonts
 mv fonts/* usr/share/fonts/TTF 
 nvim ~/.config/alacritty/alacritty.yml
   font:
     normal:
       family: "MesloLGS NF"
+
+# Rofi
 mkdir /home/soshi/.local/share/rofi/ 
 mkdir /home/soshi/.local/share/rofi/themes
 mv spotlight-dark.rasi /home/soshi/.local/share/rofi/themes/
 
-
+# Office
 yay -S onlyoffice-bin
 
-Install package:
+#package
   oh-my-zsh:wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh
   powerlevel10k: yay -S --noconfirm zsh-theme-powerlevel10k-git
   zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting

@@ -11,8 +11,8 @@ update_interval 1
 alignment = none
 maximum_width 200
 alignment top_left
-gap_x 1930 #10
-gap_y 30 #30
+gap_x  1700
+gap_y 60 
 
 override_utf8_locale yes
 xinerama_head 1
@@ -56,12 +56,6 @@ Temprature $alignr ${acpitemp}°C
 ${template0 CPU}
 $color${font}Usage $alignr $cpu %
 
-# Tarjeta Gráfica
-${template0 GPU}
-${font Open Sans:bold:size=8}${exec nvidia-smi --query-gpu=gpu_name --format=csv,noheader,nounits}
-${font Open Sans:bold:size=8}Temperatura$font${alignr}${exec nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}°C
-${font Open Sans:bold:size=8}Uso$font${alignr}${exec nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits}%
-${font Open Sans:bold:size=8}Memoria$font${alignr}${exec nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits}/${exec nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits} MiB
 # RAM
 ${template0 RAM}
 In use $alignr $mem
@@ -70,7 +64,7 @@ Buffers $alignr $buffers
 Cache $alignr $cached
 
 # NETWORK
-${template3 enp16s0 NETWORK}
+${template3 wlp0s20f3 NETWORK}
 
 # TOP
 ${template0 TOP}
