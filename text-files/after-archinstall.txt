@@ -1,14 +1,16 @@
-wifi:
+wifi en terminal:
   nmcli r wifi on
   nmcli d wifi list
   nmcli d wifi connect NAME password PASSWORD
-  
+
+
+
 sudo pacman -S lightdm lightdm-gtk-greeter
 sudo vim /etc/lightdm/lightdm.config 
   greeter-session=lightdm-gtk-greeter
 sudo systemctl enable lightdm.service 
 
-sudo pacman -S bspwm sxhkd nitrogen picom rofi alacritty conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
+sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar alacritty xorg-xbacklight conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
 
 
 nvim .profile
@@ -28,7 +30,42 @@ nvim ~/.config/sxhkd/sxhkdrc
   # terminal emulador
   super + Return
       alacritty
+chsh -s /bin/zsh
 reboot
+
+EDITAR:
+nvim bspwmrc
+  bspc monitor -d I II III IV
+
+nvim sxhkdrc
+  super + e
+    thunar
+  #Controlar volumen global Pulseaudio con tecla Funcion:
+  XF86Audio{Mute,LowerVolume,RaiseVolume}
+	  pactl set-sink-{mute 0 toggle,volume 0 -5%,volume 0 +5%}
+  #Subir brillo
+  shift + Up
+	  xbacklight -inc 10
+  #Bajar brillo
+  shift + Down
+	  xbacklight -dec 10
+  # Bluetooth
+  alt + F4
+	  blueberry
+
+nvim .zshrc
+  # comment last line 
+  export PATH="/home/soshi/.local/bin:$PATH"
+
+nvim alacritty.yml
+  shell:
+    program: /bin/zsh
+
+nvim conkyrc
+  gap_x 10
+  # varNet = nmcli dev status 
+  # NETWORK
+  ${template3 varNet NETWORK}
 
 
 
@@ -39,11 +76,21 @@ nvim ~/.config/alacritty/alacritty.yml
   font:
     normal:
       family: "MesloLGS NF"
-
-mv spotlight-dark.rasi /home/soshi/.local/share/rofi/themes
+mkdir /home/soshi/.local/share/rofi/ 
+mkdir /home/soshi/.local/share/rofi/themes
+mv spotlight-dark.rasi /home/soshi/.local/share/rofi/themes/
 
 Install package:
-  oh-my-zsh:wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-            sh install.sh
-  powerlevel10k: https://github.com/romkatv/powerlevel10k.git
+  oh-my-zsh:wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh
+  powerlevel10k: yay -S --noconfirm zsh-theme-powerlevel10k-git
+  zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  zsh-autosuggestions: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+
+LunarVim:
+  sudo pacman -S git make python python-pip npm nodejs cargo
+  su
+  LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
+  Inside LunarVim :LvimUpdate
+  Inside LunarVim :LvimSyncCorePlugins
+
 
