@@ -11,7 +11,7 @@ sudo vim /etc/lightdm/lightdm.config
 sudo systemctl enable lightdm.service 
 
 # install package
-sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar iw neofetch htop btop alacritty brightnessctl conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
+sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar iw neofetch htop btop alacritty brightnessctl conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions zathura
 
 # Variable Home
 nvim .profile
@@ -66,4 +66,8 @@ LunarVim:
   Inside LunarVim :LvimUpdate
   Inside LunarVim :LvimSyncCorePlugins
 
+yay -S visual-studio-code-bin
 
+#Eclipse
+sudo pacman -S jdk11-openjdk
+# Descargar instalador, descomprimir y ejecutarlo

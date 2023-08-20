@@ -21,4 +21,4 @@ polybar &
 nitrogen --restore &
 pkill picom
 picom -f --daemon --config "${HOME}/.config/picom/picom.conf" &
-conky
+# conky
