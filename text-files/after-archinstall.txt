@@ -10,7 +10,7 @@ sudo vim /etc/lightdm/lightdm.config
   greeter-session=lightdm-gtk-greeter
 sudo systemctl enable lightdm.service 
 
-sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar alacritty xorg-xbacklight conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
+sudo pacman -S bspwm sxhkd nitrogen picom rofi thunar iw neofetch htop btop alacritty brightnessctl conky wget arandr pulsemixer git polybar zsh nvim lsd bat zsh-autosuggestions
 
 
 nvim .profile
@@ -38,17 +38,16 @@ nvim bspwmrc
   bspc monitor -d I II III IV
 
 nvim sxhkdrc
+  super + alt + i
+    bash /home/soshi/scripts/rofi-wifi-menu.sh
   super + e
     thunar
-  #Controlar volumen global Pulseaudio con tecla Funcion:
+  #Volumen
   XF86Audio{Mute,LowerVolume,RaiseVolume}
 	  pactl set-sink-{mute 0 toggle,volume 0 -5%,volume 0 +5%}
-  #Subir brillo
-  shift + Up
-	  xbacklight -inc 10
-  #Bajar brillo
-  shift + Down
-	  xbacklight -dec 10
+  #Brillo
+  XF86MonBrightness{Up,Down}
+    brightnessctl set {+5%,5%-}
   # Bluetooth
   alt + F4
 	  blueberry
@@ -67,7 +66,8 @@ nvim conkyrc
   # NETWORK
   ${template3 varNet NETWORK}
 
-
+nvim polybar
+  copiar note
 
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
