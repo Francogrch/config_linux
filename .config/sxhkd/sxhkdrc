@@ -149,9 +149,8 @@ super + alt + p
   rofi -show power-menu -modi power-menu:~/scripts/rofi-power-menu
 
 # Bluetooth
-alt + F4
-  blueberry
-
+super + alt + b
+  ~/scripts/rofi-bluetooth
 
 
 
