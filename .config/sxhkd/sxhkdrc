@@ -138,7 +138,7 @@ super + ctrl + o
 
 # Explorer
 super + e
-  thunar &
+  dolphin &
 
 # Wifi menu
 super + alt +i 
@@ -152,5 +152,11 @@ super + alt + p
 super + alt + b
   ~/scripts/rofi-bluetooth
 
+# Screenshot
+Print
+    scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`'
+Shift + Print
+    scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`'
 
-
+ctrl + super + r
+  alacritty -e ranger

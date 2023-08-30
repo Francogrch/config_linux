@@ -111,8 +111,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: "MesloLGS NF"
-    # family: Source Code Pro
+    family: Source Code Pro
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -879,8 +878,8 @@ colors: *Dracula
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-shell:
-  program: /bin/zsh
+#shell:
+#  program: /bin/bash
 #  args:
 #    - --login
 
