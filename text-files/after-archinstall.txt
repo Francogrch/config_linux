@@ -71,3 +71,8 @@ yay -S visual-studio-code-bin
 #Eclipse
 sudo pacman -S jdk11-openjdk
 # Descargar instalador, descomprimir y ejecutarlo
+
+# NvChad
+git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
+
+:NvChadUpdate
