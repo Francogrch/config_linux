@@ -5,7 +5,7 @@ return {
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
-		version = "*",
+		version = "1.26.0",
 		opts = {
 			-- La lista de servidores que quieres que Mason instale automáticamente.
 			ensure_installed = {
