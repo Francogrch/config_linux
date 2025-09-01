@@ -32,8 +32,12 @@ sudo pacman -S alacritty kitty rofi thunar polybar nvim firefox xclip polkit-gno
 
 sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting htop htop man
 
+sudo pacman -S bluez bluez-utils pulseaudio pulseaudio-alsa
 
-
+systemctl --user enable pulseaudio.service
+systemctl --user start pulseaudio.service
+sudo systemctl enable bluetooth.service
+sudo systemctl start bluetooth.service
 # Instalar Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -63,7 +67,7 @@ curl -L -o fontawesome-free.zip "https://github.com/FortAwesome/Font-Awesome/rel
 unzip fontawesome-free.zip -d ~/.local/share/fonts/
 fc-cache -fv
 
-
+sudo chown -R <your_user_name>:<your_user_name> ~/.config
 ```
 
 configuracion copiarda .config
