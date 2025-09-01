@@ -19,7 +19,7 @@ sudo pacman -S lightdm lightdm-gtk-greeter
 
 sudo systemctl enable lightdm.service
 
-sudo pacman -Sy bspwm sxhkd picom feh
+sudo pacman -Sy bspwm sxhkd picom feh xorg-xrandr
 
 # Copiar configuracion
 mkdir -p ~/.config/{bspwm,sxhkd}
@@ -28,9 +28,9 @@ cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
 
 chmod +x ~/.config/bspwm/bspwmrc
 
-sudo pacman -S alacritty kitty rofi thunar polybar nvim firefox xclip
+sudo pacman -S alacritty kitty rofi thunar polybar nvim firefox xclip polkit-gnome pulseaudio zip wget unzip
 
-sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting htop htop
+sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting htop htop man
 
 
 
@@ -47,5 +47,35 @@ chsh -s /bin/zsh
 
 reboot
 
+# Bateria
+sudo pacman -S xfce4-power-manager
+#acomodar bspwmrc
+
+
+#Fuente
+
+mkdir -p ~/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip
+unzip Iosevka.zip -d ~/.local/share/fonts/
+fc-cache -fv
+
+curl -L -o fontawesome-free.zip "https://github.com/FortAwesome/Font-Awesome/releases/download/6.5.2/fontawesome-free-6.5.2-desktop.zip"
+unzip fontawesome-free.zip -d ~/.local/share/fonts/
+fc-cache -fv
+
 
 ```
+
+configuracion copiarda .config
+
+- kitty - listo
+- alacritty - listo
+- nvim - falta
+- bspwm - listo
+- sxhkd - falta
+- polybar - falta
+- rofi - falta
+- picom - falta
+- feh - listo
+- zsh - listo
+- thunar - nol
