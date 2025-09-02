@@ -1,0 +1,20 @@
+# Lista de directorios para respaldar configuraciones
+$HOME/.config/alacritty/
+$HOME/.config/nvim/
+$HOME/.config/kitty/
+$HOME/.config/bspwm/
+$HOME/.config/sxhkd/
+$HOME/.config/polybar/
+$HOME/.config/rofi/
+$HOME/.config/redshift/
+
+#$HOME/.config/dunst/
+
+# Archivos especificos
+$HOME/.zshrc
+$HOME/.xsettingsd
+$HOME/Documents/wallpaper.jpg
+
+
+
+

@@ -15,7 +15,7 @@ Recordar seleccionar:
 sudo pacman -Syyu
 sudo pacman -Sy git base-devel vim wget
 sudo pacman -Sy lightdm lightdm-gtk-greeter bspwm sxhkd picom feh xorg-xrandr
-sudo pacman -Sy alacritty kitty rofi thunar polybar nvim firefox xclip polkit-gnome pulseaudio zip wget unzip zsh zsh-autosuggestions zsh-syntax-highlighting htop htop man
+sudo pacman -Sy alacritty kitty rofi thunar polybar nvim firefox xclip polkit-gnome pulseaudio zip wget unzip htop htop man
 sudo pacman -Sy bluez bluez-utils pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme vesktop redshift papirus-icon-theme xcolor
 sudo systemctl --user enable pulseaudio.service
 sudo systemctl enable bluetooth.service
@@ -50,10 +50,28 @@ fc-cache -fv
 
 ```bash
 
+pacman -S zsh zoxide zsh-autocomplete-git bat tree zsh-autosuggestions zsh-syntax-highlighting
 # Instalar Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Plugins
+# Fzf junto con ohmyzsh
+git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+sed -i 's/^plugins=(.*)/plugins=(fzf-zsh-plugin \1)/' ~/.zshrc
+
 echo "source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
 echo "source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+echo "source /path/to/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+echo 'ZSH_THEME="muse"' >> ~/.zshrc
+# Alias
+alias v="nvim"
+alias fzfp='fzf --preview="bat --theme=gruvbox-dark --color=always {}"'
+alias fzfv='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
+alias fzfcd='cd "$(fd --type d --hidden --exclude .git | fzf --preview="tree -C {} | head -100")"'
+
+
+source ~/.zshrc
 
 # Cambiar shell a zsh
 chsh -s /bin/zsh
@@ -86,3 +104,9 @@ configuracion copiarda .config
 - .zshrc - listo
 - .xsettingsd - listo
 - redshift - listo
+
+## 5. Backup
+
+```bash
+sudo pacman -S rsync
+```
