@@ -6,6 +6,8 @@ $HOME/.config/sxhkd/
 $HOME/.config/polybar/
 $HOME/.config/rofi/
 $HOME/.config/redshift/
+$HOME/.config/picom/
+$HOME/.config/dunst/
 $HOME/.zshrc
 $HOME/.xsettingsd
 $HOME/Documents/wallpaper.jpg
