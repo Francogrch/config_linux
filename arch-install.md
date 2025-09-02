@@ -43,34 +43,28 @@ wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrains
 unzip /tmp/JetBrainsMono.zip -d ~/.local/share/fonts/
 fc-cache -fv
 
-
 ```
 
 ## 3. Configuración de Zsh y Oh My Zsh
 
 ```bash
-
-pacman -S zsh zoxide zsh-autocomplete-git bat tree zsh-autosuggestions zsh-syntax-highlighting
+pacman -S zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
 # Instalar Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Plugins
-# Fzf junto con ohmyzsh
-git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
-sed -i 's/^plugins=(.*)/plugins=(fzf-zsh-plugin \1)/' ~/.zshrc
-
-echo "source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
-echo "source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
-echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
-echo "source /path/to/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+# Configuracion Oh My Zsh
 echo 'ZSH_THEME="muse"' >> ~/.zshrc
-# Alias
 alias v="nvim"
 alias fzfp='fzf --preview="bat --theme=gruvbox-dark --color=always {}"'
 alias fzfv='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 alias fzfcd='cd "$(fd --type d --hidden --exclude .git | fzf --preview="tree -C {} | head -100")"'
 
-
+# Plugins
+sed -i 's/^plugins=(/plugins=(fzf' ~/.zshrc
+echo "source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+echo "source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+echo "source /usr/share/zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh" >> ~/.zshrc
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
 source ~/.zshrc
 
 # Cambiar shell a zsh

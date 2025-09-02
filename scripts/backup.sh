@@ -25,6 +25,7 @@ while read -r ORIGEN; do
         continue
     fi
     
+    eval "ORIGEN=\"$ORIGEN\""
     if [ ! -e "$ORIGEN" ]; then
         echo "Advertencia: El origen '$ORIGEN' no existe. Saltando."
         continue
