@@ -9,7 +9,19 @@ Recordar seleccionar:
 - Perfil: Minimal
 - Network configuration: Copy ISO network configuration to installation
 
+Reboot system
+
 ## 2. Configuración Inicial (instalador.sh)
+
+```bash
+# Actualizar el sistema
+sudo pacman -Syu
+sudo pacman -S git
+git clone https:github.com/Francogrch/dotfiles.git
+cd dotfiles
+chmod +x install.sh
+./install.sh
+```
 
 ```bash
 

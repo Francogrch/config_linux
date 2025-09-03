@@ -12,12 +12,15 @@ sudo echo "Permisos concedidos. La instalacion continuara."
 sudo pacman -Syyu
 
 echo "Quieres instalar los paquetes basicos? (y/n)"
-sudo pacman -Sy git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox vesktop viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+read -p "Presiona Enter para continuar..."
+sudo pacman -Sy git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox vesktop viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
 
 echo "Quieres instalar los paquetes de bluetooth? (y/n)"
+read -p "Presiona Enter para continuar..."
 sudo pacman -Sy bluez bluez-utils
 
 echo "¡Instalación de paquetes completada!"
+read -p "Presiona Enter para continuar..."
 # Habilitar servicios con sudo
 sudo systemctl --user enable pulseaudio.service
 sudo systemctl enable bluetooth.service
