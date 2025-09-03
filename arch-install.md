@@ -12,14 +12,29 @@ Recordar seleccionar:
 ## 2. Configuración Inicial (instalador.sh)
 
 ```bash
+
+# Sincroniza la lista de paquetes para tener la información más reciente
+
 sudo pacman -Syyu
-sudo pacman -Sy git base-devel vim wget
-sudo pacman -Sy lightdm lightdm-gtk-greeter bspwm sxhkd picom feh xorg-xrandr
-sudo pacman -Sy alacritty kitty rofi thunar polybar nvim firefox xclip polkit-gnome pulseaudio zip wget unzip htop htop man
-sudo pacman -Sy bluez bluez-utils pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme vesktop redshift papirus-icon-theme xcolor
+# --- GRUPO 1: Entorno de desarrollo y utilidades del sistema ---
+sudo pacman -S git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man xdg-user-dirs
+
+# --- GRUPO 2: Entorno gráfico y gestor de ventanas ---
+sudo pacman -S xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar
+
+# --- GRUPO 3: Aplicaciones de escritorio y productividad ---
+sudo pacman -S alacritty kitty rofi thunar firefox vesktop viewnior maim
+
+# --- GRUPO 4: Sonido, apariencia y periféricos ---
+sudo pacman -S pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+
+# --- GRUPO 5: Herramientas adicionales ---
+sudo pacman -S bluez bluez-utils
+
+sudo systemctl enable lightdm.service
 sudo systemctl --user enable pulseaudio.service
 sudo systemctl enable bluetooth.service
-sudo systemctl enable lightdm.service
+
 
 # Copiar configuracion
 mkdir -p ~/.config
@@ -35,7 +50,7 @@ mkdir -p ~/.local/share/icons/dunst
 cp icons/* ~/.local/share/icons/dunst
 fc-cache -fv
 
-#Fuente
+# Fuente
 mkdir -p ~/.local/share/fonts
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip' -O /tmp/Iosevka.zip && \
 unzip /tmp/Iosevka.zip -d ~/.local/share/fonts/ && \
@@ -75,9 +90,9 @@ chsh -s /bin/zsh
 reboot
 
 # Bateria/ Pantalla laptop
-sudo pacman -S xfce4-power-manager
+sudo pacman -S xfce4-power-manager light backlight
 
-sudo chown -R <your_user_name>:<your_user_name> ~/.config
+sudo chown -R "$USER":"$USER" ~/
 ```
 
 ## 4.Configuracion de programas

@@ -11,7 +11,3 @@ $HOME/.config/dunst/
 $HOME/.zshrc
 $HOME/.xsettingsd
 $HOME/Documents/wallpaper.jpg
-
-
-
-
