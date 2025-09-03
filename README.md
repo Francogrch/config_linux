@@ -61,15 +61,19 @@ sudo pacman -S xfce4-power-manager light backlight
 
 - Linea 153: cambiar a glx si la tarjeta grafica lo soporta
 
-## 2. Paquetes que instala el script
+#### Nvim:
 
-### 2.1 Plugins de zsh
+Cuando abras nvim por primera vez ejecuta:
 
 ```bash
 
 ```
 
-## 5. Backup
+## 2. Paquetes que instala el script
+
+### 2.1 Plugins de zsh
+
+## 3. Backup
 
 En la carpeta scripts hay un script para hacer copia de los archivos/carpetas que esten definidos en list_back.txt
 
