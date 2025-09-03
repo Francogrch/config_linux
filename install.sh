@@ -30,15 +30,16 @@ read
 clear
 # Comandos de instalacion con sudo
 sudo pacman -Syu
-
-read -p "Quieres instalar los paquetes basicos? (y/n)" confirm
+read -p "Actualizacion completada. Presiona Enter para continuar..."
 clear
+read -p "Quieres instalar los paquetes basicos? (y/n)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  sudo pacman -S --noconfirm git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+  sudo pacman -S --noconfirm git base-devel vim neovim wget htop ripgrep fastfetch zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
 fi
+read -p "Instalacion completada. Presiona Enter para continuar..."
+clear
 
 read -p "Quieres instalar los paquetes de bluetooth? (y/n)" confirm
-clear
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
   sudo pacman -S --noconfirm bluez bluez-utils
 fi
@@ -75,13 +76,14 @@ read -p "Presiona Enter para continuar..."
 clear
 
 read -p "Quieres instalar mi zsh personal? (y/n)" confirm
-clear
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  sudo pacman -S zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
+  sudo pacman -S --noconfirm zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
   rm -rf "$HOME/.oh-my-zsh"
-  echo "Cuando termine de instalar Oh My Zsh, pon exit para cerrar la terminal y volver a este script."
+  clear
+  echo "Cuando termine de instalar Oh My Zsh, escribe exit para cerrar la terminal y volver a este script."
   read -p "Presiona Enter para continuar..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  clear
   cp -rf ./dotfiles/.zshrc "$HOME/"
   echo "¡Instalación de zsh completada!"
 fi
