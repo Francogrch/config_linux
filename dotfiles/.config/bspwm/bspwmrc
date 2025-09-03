@@ -10,7 +10,7 @@ killall -9 dunst xsettingsd sxhkd dunst xfce4-power-manager polybar picom feh
 # xfce4-power-manager &
 
 # Restore wallpaper
-feh --no-fehbg --bg-fill "$HOME/Pictures/wallpaper.jpg" &
+feh --no-fehbg --bg-fill "$HOME/Pictures/wallpaper.png" &
 polybar -c ~/.config/polybar/config.ini main &
 picom &
 xsettingsd &
