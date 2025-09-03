@@ -17,42 +17,49 @@ sudo pacman -Sy git base-devel vim neovim wget htop ripgrep zip unzip xclip xdot
 echo "Quieres instalar los paquetes de bluetooth? (y/n)"
 sudo pacman -Sy bluez bluez-utils
 
+echo "¡Instalación de paquetes completada!"
 # Habilitar servicios con sudo
 sudo systemctl --user enable pulseaudio.service
 sudo systemctl enable bluetooth.service
 sudo systemctl enable lightdm.service
-sudo chown -R "$USER":"$USER" ~/
+sudo chown -R "$USER":"$USER" "$HOME/"
 
+echo "¡Servicios habilitados!"
 # Comandos de configuracion de usuario (sin sudo)
-mkdir -p ~/.config
-cp -rf .config/* ~/.config/
-cp -rf .xsettingsd ~/
-mkdir -p ~/Documents
-cp wallpaper.jpg ~/Documents
-chmod +x ~/.config/bspwm/bspwmrc
-chmod +x ~/.config/sxhkd/sxhkdrc
-mkdir -p ~/.local/share/icons/dunst
-cp icons/* ~/.local/share/icons/dunst
+mkdir -p "$HOME/.config"
+cp -rf ./dotfiles/.config/* "$HOME/.config"
+cp -rf ./dotfiles/.xsettingsd "$HOME/"
+mkdir -p "$HOME/Pictures"
+cp ./dotfiles/wallpaper.jpg "$HOME/Pictures"
+chmod +x "$HOME/.config/bspwm/bspwmrc"
+chmod +x "$HOME/.config/sxhkd/sxhkdrc"
+mkdir -p "$HOME/.local/share/icons/dunst"
+cp ./dotfiles/icons/* "$HOME/.local/share/icons/dunst"
 
-#unzip fuentes.zip -d ~/.local/share/fonts/
+echo "¡Instalación de dotfiles completada!"
+#mkdir -p "$HOME/.local/share/fonts"
+#unzip fuentes.zip -d "$HOME/.local/share/fonts/"
 #fc-cache -fv
 
 # Instalar fuentes
-mkdir -p ~/.local/share/fonts
+mkdir -p "$HOME/.local/share/fonts"
 wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip' -O /tmp/Iosevka.zip &&
-  unzip /tmp/Iosevka.zip -d ~/.local/share/fonts/ &&
+  unzip /tmp/Iosevka.zip -d "$HOME/.local/share/fonts/" &&
   wget 'https://github.com/FortAwesome/Font-Awesome/releases/download/6.5.2/fontawesome-free-6.5.2-desktop.zip' -O /tmp/fontawesome.zip &&
-  unzip /tmp/fontawesome.zip -d ~/.local/share/fonts/ &&
+  unzip /tmp/fontawesome.zip -d "$HOME/.local/share/fonts/" &&
   wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip' -O /tmp/JetBrainsMono.zip &&
-  unzip /tmp/JetBrainsMono.zip -d ~/.local/share/fonts/
+  unzip /tmp/JetBrainsMono.zip -d "$HOME/.local/share/fonts/"
 fc-cache -fv
 
+echo "¡Instalación de fuentes completada!"
+
 # Instalacion de zsh
-#
 sudo pacman -S zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
-# Instalar Oh My Zsh
+# Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-cp -rf .zshrc ~/
+cp -rf .zshrc "$HOME/"
 chsh -s /bin/zsh
+
+echo "¡Instalación de zsh completada!"
 
 echo "Instalacion completada. Reinicia el sistema para aplicar todos los cambios. ¡Disfruta de tu nuevo entorno! 🎉"

@@ -1,0 +1,99 @@
+#! /bin/sh
+
+#exec 2>/tmp/bspwm_log.txt
+export PATH="$PATH:$HOME/.config/bspwm/scripts"
+
+# Kill if already running
+killall -9 dunst xsettingsd sxhkd dunst xfce4-power-manager polybar picom feh
+
+# Enable power management
+# xfce4-power-manager &
+
+# Restore wallpaper
+feh --no-fehbg --bg-fill "$HOME/Pictures/wallpaper.jpg" &
+polybar -c ~/.config/polybar/config.ini main &
+picom &
+xsettingsd &
+sxhkd -c ~/.config/sxhkd/sxhkdrc &
+redshift &
+dunst &
+## Current theme ---------------------------------------------#
+
+## Bspwm colors
+BSPWM_FBC='#F5E0DC'
+BSPWM_NBC='#1E1E2E'
+BSPWM_ABC='#F5C2E7'
+BSPWM_PFC='#A6E3A1'
+
+## Bspwm appearance
+BSPWM_BORDER='2'
+BSPWM_GAP='10'
+BSPWM_SRATIO='0.50'
+
+## Configurations --------------------------------------------#
+#RESOLUTION="1920x1080"
+RESOLUTION="1280x720"
+
+default_workspaces_min() {
+  for monitor in $(xrandr -q | grep -w 'connected' | cut -d' ' -f1); do
+    bspc monitor "$monitor" -d '' '' '' '' ''
+    xrandr --output "$monitor" --mode "$RESOLUTION"
+  done
+}
+
+default_workspaces() {
+  for monitor in $(xrandr -q | grep -w 'connected' | cut -d' ' -f1); do
+    bspc monitor "$monitor" -d '' '' '' '' '' '' '' ''
+    xrandr --output "$monitor" --mode "$RESOLUTION"
+  done
+}
+
+two_monitors_workspaces() {
+  # change these values according to your system
+  # you can use `xrandr -q` to get the names of monitors
+  INTERNAL_MONITOR="HDMI-0"
+  EXTERNAL_MONITOR="DP-2"
+  if [[ $(xrandr -q | grep "${EXTERNAL_MONITOR} connected") ]]; then
+    bspc monitor "$EXTERNAL_MONITOR" -d '' '' '' ''
+    bspc monitor "$INTERNAL_MONITOR" -d '' '' '' ''
+    bspc wm -O "$EXTERNAL_MONITOR" "$INTERNAL_MONITOR"
+  else
+    bspc monitor "$INTERNAL_MONITOR" -d '' '' '' '' '' '' '' ''
+  fi
+}
+
+three_monitors_workspaces() {
+  # again, change these values accordingly
+  MONITOR_1="eDP"
+  MONITOR_2="HDMI-A-0"
+  MONITOR_3="HDMI-A-1"
+  bspc monitor "$MONITOR_1" -d '' ''
+  bspc monitor "$MONITOR_2" -d '' '' ''
+  bspc monitor "$MONITOR_3" -d '' '' ''
+  bspc wm -O "$MONITOR_2" "$MONITOR_1" "$MONITOR_3"
+}
+
+## Uncomment only one function according to your needs
+default_workspaces_min
+#default_workspaces
+#two_monitors_workspaces
+#three_monitors_workspaces
+
+## Apply bspwm configurations
+bspc config border_width "$BSPWM_BORDER"
+bspc config window_gap "$BSPWM_GAP"
+bspc config split_ratio "$BSPWM_SRATIO"
+
+bspc config focused_border_color "$BSPWM_FBC"
+bspc config normal_border_color "$BSPWM_NBC"
+bspc config active_border_color "$BSPWM_ABC"
+bspc config presel_feedback_color "$BSPWM_PFC"
+
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+bspc config paddingless_monocle true
+bspc config single_monocle false
+bspc config focus_follows_pointer true
+bspc config presel_feedback true
+
+bspc wm --adopt-orphans
