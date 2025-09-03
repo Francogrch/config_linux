@@ -24,12 +24,13 @@ fi
 echo "¡Instalación de paquetes completada!"
 read -p "Presiona Enter para continuar..."
 # Habilitar servicios con sudo
-sudo systemctl --user enable pulseaudio.service
+sudo systemctl enable pulseaudio.service
 sudo systemctl enable bluetooth.service
 sudo systemctl enable lightdm.service
 sudo chown -R "$USER":"$USER" "$HOME/"
 
 echo "¡Servicios habilitados!"
+read -p "Presiona Enter para continuar..."
 # Comandos de configuracion de usuario (sin sudo)
 mkdir -p "$HOME/.config"
 cp -rf ./dotfiles/.config/* "$HOME/.config"
@@ -42,8 +43,9 @@ mkdir -p "$HOME/.local/share/icons/dunst"
 cp ./dotfiles/icons/* "$HOME/.local/share/icons/dunst"
 
 echo "¡Instalación de dotfiles completada!"
+read -p "Presiona Enter para continuar..."
 #mkdir -p "$HOME/.local/share/fonts"
-sudo pacman -S ttf-iosevka ttf-jetbrains-mono noto-fonts-emoji ttf-font-awesome
+sudo pacman -S ttf-iosevka-nerd ttf-jetbrains-mono noto-fonts-emoji ttf-nerd-fonts-symbols ttf-firacode-nerd ttf-hack-nerd
 #unzip fuentes.zip -d "$HOME/.local/share/fonts/"
 #fc-cache -fv
 # Instalar fuentes
@@ -57,11 +59,14 @@ sudo pacman -S ttf-iosevka ttf-jetbrains-mono noto-fonts-emoji ttf-font-awesome
 # fc-cache -fv
 #
 echo "¡Instalación de fuentes completada!"
+read -p "Presiona Enter para continuar..."
 
 # Instalacion de zsh
 sudo pacman -S zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
 # Oh My Zsh
 rm -rf "$HOME/.oh-my-zsh"
+echo "Cuando termine de instalar Oh My Zsh, pon exit para cerrar la terminal y volver a este script."
+read -p "Presiona Enter para continuar..."
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 cp -rf ./dotfiles/.zshrc "$HOME/"
 chsh -s /bin/zsh
