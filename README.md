@@ -2,7 +2,7 @@
 
 Este repositorio contiene mi configuración personal para un entorno de escritorio minimalista y funcional en Arch Linux, utilizando **bspwm** como gestor de ventanas. El script de instalación automatiza la mayor parte del proceso.
 
-![wallpaper](/home/soshi/Documents/repos/config_linux/dotfiles/Pictures/wallpaper.png)
+![wallpaper](./dotfiles/Pictures/wallpaper.png)
 
 ## Características
 
