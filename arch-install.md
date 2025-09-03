@@ -31,6 +31,8 @@ cp wallpaper.jpg ~/Documents
 chmod +x ~/.config/bspwm/bspwmrc
 chmod +x ~/.config/sxhkd/sxhkdrc
 unzip fuentes.zip -d ~/.local/share/fonts/
+mkdir -p ~/.local/share/icons/dunst
+cp icons/* ~/.local/share/icons/dunst
 fc-cache -fv
 
 #Fuente
