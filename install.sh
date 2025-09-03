@@ -24,7 +24,7 @@ fi
 echo "¡Instalación de paquetes completada!"
 read -p "Presiona Enter para continuar..."
 # Habilitar servicios con sudo
-sudo systemctl enable pulseaudio.service
+systemctl --user enable pulseaudio.service
 sudo systemctl enable bluetooth.service
 sudo systemctl enable lightdm.service
 sudo chown -R "$USER":"$USER" "$HOME/"
