@@ -15,7 +15,7 @@ echo "Presiona Enter para continuar..."
 read
 clear
 # Comandos de instalacion con sudo
-sudo pacman -Syyu
+sudo pacman -Syu
 
 read -p "Quieres instalar los paquetes basicos? (y/n)" confirm
 clear
