@@ -1,26 +1,35 @@
 # Instalacion de archinstall
 
-## 1. Instalación de Arch Linux
+## Instalacion de configuracion personal
+
+### 1. Instalación de Arch Linux
 
     archinstall
 
-Recordar seleccionar:
+Recordar:
 
 - Perfil: Minimal
+- Autentication: Password root y crear un usuario con permisos sudo
 - Network configuration: Copy ISO network configuration to installation
+- Reboot system
 
-Por ultimo Reboot system
+### 2. Instalar tema
 
-## 2. Configuración Inicial (instalador.sh)
+Es necesario iniciar sesion como un usuario normal, no como root
 
 ```bash
 sudo pacman -Syu
 sudo pacman -S git
-git clone https:github.com/Francogrch/config_arch.git
+git clone https://github.com/Francogrch/config_arch.git
 cd config_arch
 chmod +x install.sh
 ./install.sh
 ```
+
+### 3. Configuraciones adicionales
+
+- Picom: Linea 153 - cambiar a glx si la tarjeta grafica lo soporta
+-
 
 ```bash
 
@@ -59,18 +68,6 @@ chmod +x ~/.config/sxhkd/sxhkdrc
 unzip fuentes.zip -d ~/.local/share/fonts/
 mkdir -p ~/.local/share/icons/dunst
 cp icons/* ~/.local/share/icons/dunst
-fc-cache -fv
-
-# Fuente
-mkdir -p ~/.local/share/fonts
-wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip' -O /tmp/Iosevka.zip && \
-unzip /tmp/Iosevka.zip -d ~/.local/share/fonts/ && \
-wget 'https://github.com/FortAwesome/Font-Awesome/releases/download/6.5.2/fontawesome-free-6.5.2-desktop.zip' -O /tmp/fontawesome.zip && \
-unzip /tmp/fontawesome.zip -d ~/.local/share/fonts/ && \
-wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip' -O /tmp/JetBrainsMono.zip && \
-unzip /tmp/JetBrainsMono.zip -d ~/.local/share/fonts/
-fc-cache -fv
-
 ```
 
 ## 3. Configuración de Zsh y Oh My Zsh
