@@ -18,7 +18,7 @@ fi
 
 read -p "Quieres instalar los paquetes de bluetooth? (y/n)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  sudo pacman -Sy bluez bluez-utils
+  sudo pacman -S --noconfirm bluez bluez-utils
 fi
 
 echo "¡Instalación de paquetes completada!"
@@ -35,7 +35,7 @@ mkdir -p "$HOME/.config"
 cp -rf ./dotfiles/.config/* "$HOME/.config"
 cp -rf ./dotfiles/.xsettingsd "$HOME/"
 mkdir -p "$HOME/Pictures"
-cp ./dotfiles/wallpaper.jpg "$HOME/Pictures"
+cp ./dotfiles/Pictures/wallpaper.jpg "$HOME/Pictures"
 chmod +x "$HOME/.config/bspwm/bspwmrc"
 chmod +x "$HOME/.config/sxhkd/sxhkdrc"
 mkdir -p "$HOME/.local/share/icons/dunst"
@@ -43,19 +43,19 @@ cp ./dotfiles/icons/* "$HOME/.local/share/icons/dunst"
 
 echo "¡Instalación de dotfiles completada!"
 #mkdir -p "$HOME/.local/share/fonts"
+sudo pacman -S ttf-iosevka ttf-jetbrains-mono noto-fonts-emoji ttf-font-awesome
 #unzip fuentes.zip -d "$HOME/.local/share/fonts/"
 #fc-cache -fv
-
 # Instalar fuentes
-mkdir -p "$HOME/.local/share/fonts"
-wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip' -O /tmp/Iosevka.zip &&
-  unzip /tmp/Iosevka.zip -d "$HOME/.local/share/fonts/" &&
-  wget 'https://github.com/FortAwesome/Font-Awesome/releases/download/6.5.2/fontawesome-free-6.5.2-desktop.zip' -O /tmp/fontawesome.zip &&
-  unzip /tmp/fontawesome.zip -d "$HOME/.local/share/fonts/" &&
-  wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip' -O /tmp/JetBrainsMono.zip &&
-  unzip /tmp/JetBrainsMono.zip -d "$HOME/.local/share/fonts/"
-fc-cache -fv
-
+# mkdir -p "$HOME/.local/share/fonts"
+# wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip' -O /tmp/Iosevka.zip &&
+#   unzip /tmp/Iosevka.zip -d "$HOME/.local/share/fonts/" &&
+#   wget 'https://github.com/FortAwesome/Font-Awesome/releases/download/6.5.2/fontawesome-free-6.5.2-desktop.zip' -O /tmp/fontawesome.zip &&
+#   unzip /tmp/fontawesome.zip -d "$HOME/.local/share/fonts/" &&
+#   wget 'https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip' -O /tmp/JetBrainsMono.zip &&
+#   unzip /tmp/JetBrainsMono.zip -d "$HOME/.local/share/fonts/"
+# fc-cache -fv
+#
 echo "¡Instalación de fuentes completada!"
 
 # Instalacion de zsh
