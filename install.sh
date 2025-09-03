@@ -11,13 +11,15 @@ sudo echo "Permisos concedidos. La instalacion continuara."
 # Comandos de instalacion con sudo
 sudo pacman -Syyu
 
-echo "Quieres instalar los paquetes basicos? (y/n)"
-read -p "Presiona Enter para continuar..."
-sudo pacman -Sy git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox vesktop viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd material-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+read -p "Quieres instalar los paquetes basicos? (y/n)" confirm
+if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+  sudo pacman -S --noconfirm git base-devel vim neovim wget htop ripgrep zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+fi
 
-echo "Quieres instalar los paquetes de bluetooth? (y/n)"
-read -p "Presiona Enter para continuar..."
-sudo pacman -Sy bluez bluez-utils
+read -p "Quieres instalar los paquetes de bluetooth? (y/n)" confirm
+if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+  sudo pacman -Sy bluez bluez-utils
+fi
 
 echo "¡Instalación de paquetes completada!"
 read -p "Presiona Enter para continuar..."
@@ -59,8 +61,9 @@ echo "¡Instalación de fuentes completada!"
 # Instalacion de zsh
 sudo pacman -S zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
 # Oh My Zsh
+rm -rf "$HOME/.oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-cp -rf .zshrc "$HOME/"
+cp -rf ./dotfiles/.zshrc "$HOME/"
 chsh -s /bin/zsh
 
 echo "¡Instalación de zsh completada!"
