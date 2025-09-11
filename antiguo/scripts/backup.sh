@@ -1,6 +1,34 @@
 #!/bin/bash
-echo "--- Script de Backup ---"
+clear
+echo "
+  █████████                   █████       ███            
+ ███░░░░░███                 ░░███       ░░░             
+░███    ░░░   ██████   █████  ░███████   ████            
+░░█████████  ███░░███ ███░░   ░███░░███ ░░███            
+ ░░░░░░░░███░███ ░███░░█████  ░███ ░███  ░███            
+ ███    ░███░███ ░███ ░░░░███ ░███ ░███  ░███            
+░░█████████ ░░██████  ██████  ████ █████ █████           
+ ░░░░░░░░░   ░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░░░░            
+                                                         
+                                                         
+                                                         
+ ███████████ █████                                       
+░█░░░███░░░█░░███                                        
+░   ░███  ░  ░███████    ██████  █████████████    ██████ 
+    ░███     ░███░░███  ███░░███░░███░░███░░███  ███░░███
+    ░███     ░███ ░███ ░███████  ░███ ░███ ░███ ░███████ 
+    ░███     ░███ ░███ ░███░░░   ░███ ░███ ░███ ░███░░░  
+    █████    ████ █████░░██████  █████░███ █████░░██████ 
+   ░░░░░    ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░
+"
+
+echo "--- Utilidad de Backup Automatizado ---"
+echo "Este script realiza un backup de archivos y directorios listados en 'list_back.txt'."
+echo "Utiliza 'rsync' para una sincronización eficiente y diferencial."
+echo ""
+echo "Asegúrese de que el archivo 'list_back.txt' exista en la misma ubicación que este script y de tener los permisos necesarios."
 echo "Por favor, ingresa la ruta de la carpeta de destino para el backup:"
+
 read -r DESTINO
 #DESTINO="/ruta/a/la/carpeta/de/backup"
 
