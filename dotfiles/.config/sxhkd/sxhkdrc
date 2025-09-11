@@ -126,6 +126,10 @@ alt + {_,shift + }Tab
 super + {Tab,grave}
 	bspc {node,desktop} -f last
 
+# Rotate the focused node 90 degrees clockwise
+super + e
+  bspc node @parent -R 90
+
 ##---------- System Keys ----------##
 
 # Take a screenshot
