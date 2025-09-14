@@ -28,20 +28,65 @@ echo "Asegurate de estar conectado a internet y de tener privilegios de sudo."
 echo "Presiona Enter para continuar..."
 read
 clear
+
+function install() {
+  local packages_to_install=("$@")
+  if [[ ${#packages_to_install[@]} -gt 0 ]]; then
+    sudo pacman -S --noconfirm "${packages_to_install[@]}"
+    echo "Instalación completada."
+  else
+    echo "No se especificaron paquetes para instalar."
+  fi
+}
+
+# Paquetes adicionales
+function paquetes_adicionales() {
+  read -p "Quieres instalar los paquetes de bluetooth? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm bluez bluez-utils
+  fi
+
+  read -p "Quieres instalar los paquetes de edicion de imagen y video? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm kdenlive gimp obs-studio
+  fi
+
+  read -p "Quieres instalar los paquetes de ofimatica? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm libreoffice-fresh
+  fi
+
+  read -p "Quieres instalar los paquetes de virtualizacion? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm virtualbox virtualbox-host-modules-arch
+    sudo modprobe vboxdrv
+    sudo gpasswd -a $USER vboxusers
+  fi
+
+  read -p "Quieres instalar los paquetes de redes? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm networkmanager network-manager-applet
+  fi
+
+  read -p "Quieres instalar los paquetes de gaming? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    sudo pacman -S --noconfirm steam lutris
+  fi
+}
+
 # Comandos de instalacion con sudo
 sudo pacman -Syu
 read -p "Actualizacion completada. Presiona Enter para continuar..."
 clear
-read -p "Quieres instalar los paquetes basicos? (y/n)" confirm
+read -p "Quieres instalar los paquetes basicos? (y/N)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  sudo pacman -S --noconfirm git base-devel vim neovim wget htop ripgrep fastfetch zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
+  install git base-devel vim neovim wget htop ripgrep fastfetch zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
 fi
 read -p "Instalacion completada. Presiona Enter para continuar..."
 clear
-
-read -p "Quieres instalar los paquetes de bluetooth? (y/n)" confirm
+read -p "Quieres instalar algun paquete adicional? (y/N)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  sudo pacman -S --noconfirm bluez bluez-utils
+  paquetes_adicionales
 fi
 
 echo "¡Instalación de paquetes completada!"
@@ -75,7 +120,7 @@ echo "¡Instalación de fuentes completada!"
 read -p "Presiona Enter para continuar..."
 clear
 
-read -p "Quieres instalar mi zsh personal? (y/n)" confirm
+read -p "Quieres instalar mi zsh personal? (y/N)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
   sudo pacman -S --noconfirm zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
   rm -rf "$HOME/.oh-my-zsh"
