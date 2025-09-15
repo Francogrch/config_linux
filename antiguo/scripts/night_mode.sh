@@ -1,18 +1,17 @@
 #!/bin/bash
 
-monitor="DP-0"  # Cambia esto al identificador de tu monitor
+# Define the state file
+STATE_FILE="/tmp/night_mode_state"
 
-# Verifica el estado actual del modo noche
-current_gamma=$(xrandr --verbose | grep -A 10 "$monitor" | grep -oP 'Gamma:      \K.{11}')
-echo $curent_gamma
-
-if [[ $current_gamma == "1.0:1.0:1.0" ]]; then
-    # Cambiar a modo noche
-    xrandr --output "$monitor" --gamma 1.0:0.88:0.76 --brightness 0.9
-    echo "Modo Noche Activado para el monitor $monitor"
+# Check the current state
+if [ ! -f "$STATE_FILE" ] || [ "$(cat "$STATE_FILE")" == "off" ]; then
+  # Night mode is OFF, so turn it ON
+  redshift -O 4500 &
+  echo "on" >"$STATE_FILE"
+  dunstify "Night Mode" "Activated"
 else
-    # Cambiar a modo normal
-    xrandr --output "$monitor" --gamma 1.0:1.0:1.0 --brightness 1.0
-    echo "Modo Noche Desactivado para el monitor $monitor"
+  # Night mode is ON, so turn it OFF
+  redshift -x
+  echo "off" >"$STATE_FILE"
+  dunstify "Night Mode" "Deactivated"
 fi
-
