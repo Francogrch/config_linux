@@ -12,6 +12,10 @@ alias v="nvim"
 alias fzfp='fzf --preview="bat --theme=gruvbox-dark --color=always {}"'
 alias fzfv='nvim $(fzf --preview="bat --theme=gruvbox-dark --color=always {}")'
 alias fzfcd='cd "$(fd --type d --hidden --exclude .git | fzf --preview="tree -C {} | head -100")"'
+alias ls='lsd'
+alias l='lsd -l'
+alias la='lsd -a'
+alias lla='lsd -la'
 
 # Plugins
 plugins=(fzf git sudo)

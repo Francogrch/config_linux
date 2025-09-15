@@ -107,7 +107,7 @@ function copy_dotfiles() {
 }
 
 function install_zsh_config() {
-  install zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
+  install zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd lsd
   rm -rf "$HOME/.oh-my-zsh"
   clear
   echo "Cuando termine de instalar Oh My Zsh, escribe exit para cerrar la terminal y volver a este script."
