@@ -11,7 +11,6 @@ super + shift + Return
 ctrl + alt + t
    alacritty 
 
-
 # Rofi App Launcher
 super + d
 	$HOME/.config/bspwm/scripts/rofi_launcher
@@ -22,7 +21,7 @@ alt + F2
 
 # Rofi Menus/Applets
 super + {b,n,r,s,w,x,a}
-	{$HOME/.config/bspwm/scripts/rofi_bluetooth,nmd,$HOME/.config/bspwm/scripts/rofi_asroot,$HOME/.config/bspwm/scripts/rofi_screenshot,$HOME/.config/bspwm/scripts/rofi_windows,$HOME/.config/bspwm/scripts/rofi_powermenu,$HOME/.config/bspwm/scripts/audio_chang}
+	{$HOME/.config/bspwm/scripts/rofi_bluetooth,nmd,$HOME/.config/bspwm/scripts/rofi_asroot,$HOME/.config/bspwm/scripts/rofi_screenshot,$HOME/.config/bspwm/scripts/rofi_windows,$HOME/.config/bspwm/scripts/rofi_powermenu,$HOME/.config/bspwm/scripts/audio_change}
 
 # Launch Apps
 super + shift + {f,w}
@@ -41,7 +40,7 @@ super + p
 	$HOME/.config/bspwm/scripts/bspcolorpicker
 
 super + alt + n
-  $HOME/.config/bspwm/scripts/night_mode_toggle.sh
+  $HOME/.config/bspwm/scripts/night_mode_toggle
 ##---------- Bspwm ----------##
 
 # Hide/Unhide Window
@@ -85,8 +84,8 @@ super + alt + shift + {h,j,k,l}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # Expanding windows
-super + control + {h,j,k,l}
-	bspc node -z {left -20 0,right 0 20,top 0 -20,bottom 20 0}
+super + control + {h,l,k,j}
+	bspc node -z {left -20 0,right 20 0,top 0 -20,bottom 0 20}
 	
 # Shrinking windows
 super + alt + {Left,Right,Up,Down}

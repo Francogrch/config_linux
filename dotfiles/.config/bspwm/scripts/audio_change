@@ -2,9 +2,8 @@
 
 # Get the list of sinks and their descriptions
 SINK_LIST=$(pactl list sinks | grep "Description:" | cut -d: -f2 | sed 's/^ *//')
-DIR="$HOME/.config/bspwm"
-STYLE="soshi-bspwm"
-RASI="$DIR/themes/$STYLE/rofi/themes.rasi"
+
+RASI="$HOME/.config/bspwm/rofi/themes.rasi""
 
 # Use Rofi to let the user choose a sink
 SELECTED_SINK=$(echo "$SINK_LIST" | rofi -dmenu -theme ${RASI} -i -p "Select Audio Output:")
