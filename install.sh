@@ -1,33 +1,46 @@
 #!/bin/bash
-clear
-echo "
-  █████████                   █████       ███            
- ███░░░░░███                 ░░███       ░░░             
-░███    ░░░   ██████   █████  ░███████   ████            
-░░█████████  ███░░███ ███░░   ░███░░███ ░░███            
- ░░░░░░░░███░███ ░███░░█████  ░███ ░███  ░███            
- ███    ░███░███ ░███ ░░░░███ ░███ ░███  ░███            
-░░█████████ ░░██████  ██████  ████ █████ █████           
- ░░░░░░░░░   ░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░░░░            
-                                                         
-                                                         
-                                                         
- ███████████ █████                                       
-░█░░░███░░░█░░███                                        
-░   ░███  ░  ░███████    ██████  █████████████    ██████ 
-    ░███     ░███░░███  ███░░███░░███░░███░░███  ███░░███
-    ░███     ░███ ░███ ░███████  ░███ ░███ ░███ ░███████ 
-    ░███     ░███ ░███ ░███░░░   ░███ ░███ ░███ ░███░░░  
-    █████    ████ █████░░██████  █████░███ █████░░██████ 
-   ░░░░░    ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░
-"
+function check_root() {
+  if [ "$EUID" -eq 0 ]; then
+    echo "No ejecutes este script como root. Por favor, ejecútalo como un usuario normal con privilegios de sudo."
+    exit 1
+  fi
+}
 
-echo "Bienvenido al script de instalacion de mi entorno de trabajo en Arch Linux."
-echo "Este script instalara los paquetes basicos, configurara el entorno de trabajo y habilitara los servicios necesarios."
-echo "Asegurate de estar conectado a internet y de tener privilegios de sudo."
-echo "Presiona Enter para continuar..."
-read
-clear
+function print_welcome() {
+  echo "========================================"
+  echo "   Script de Instalación de Entorno    "
+  echo "            Arch Linux                 "
+  echo "========================================"
+  echo "
+    █████████                   █████       ███            
+  ███░░░░░███                 ░░███       ░░░             
+  ░███    ░░░   ██████   █████  ░███████   ████            
+  ░░█████████  ███░░███ ███░░   ░███░░███ ░░███            
+  ░░░░░░░░███░███ ░███░░█████  ░███ ░███  ░███            
+  ███    ░███░███ ░███ ░░░░███ ░███ ░███  ░███            
+  ░░█████████ ░░██████  ██████  ████ █████ █████           
+  ░░░░░░░░░   ░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░░░░            
+                                                          
+                                                          
+                                                          
+  ███████████ █████                                       
+  ░█░░░███░░░█░░███                                        
+  ░   ░███  ░  ░███████    ██████  █████████████    ██████ 
+      ░███     ░███░░███  ███░░███░░███░░███░░███  ███░░███
+      ░███     ░███ ░███ ░███████  ░███ ░███ ░███ ░███████ 
+      ░███     ░███ ░███ ░███░░░   ░███ ░███ ░███ ░███░░░  
+      █████    ████ █████░░██████  █████░███ █████░░██████ 
+    ░░░░░    ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░
+  "
+
+  echo "Bienvenido al script de instalacion de mi entorno de trabajo en Arch Linux."
+  echo "Este script instalara los paquetes basicos, configurara el entorno de trabajo y habilitara los servicios necesarios."
+  echo "Asegurate de estar conectado a internet y de tener privilegios de sudo."
+  echo "Presiona Enter para continuar..."
+  read
+
+  clear
+}
 
 function install() {
   local packages_to_install=("$@")
@@ -39,7 +52,6 @@ function install() {
   fi
 }
 
-# Paquetes adicionales
 function paquetes_adicionales() {
   read -p "Quieres instalar los paquetes de bluetooth? (y/N)" confirm
   if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
@@ -74,7 +86,40 @@ function paquetes_adicionales() {
   fi
 }
 
-# Comandos de instalacion con sudo
+function enable_services() {
+  systemctl --user enable pulseaudio.service
+  sudo systemctl enable bluetooth.service
+  sudo systemctl enable lightdm.service
+  sudo chown -R "$USER":"$USER" "$HOME/"
+}
+
+function copy_dotfiles() {
+  mkdir -p "$HOME/.config"
+  cp -rf ./dotfiles/.config/* "$HOME/.config"
+  cp -rf ./dotfiles/.xsettingsd "$HOME/"
+  mkdir -p "$HOME/Pictures"
+  cp ./dotfiles/Pictures/wallpaper.png "$HOME/Pictures"
+  cp ./dotfiles/Pictures/wallpaper.jpg "$HOME/Pictures"
+  chmod +x "$HOME/.config/bspwm/bspwmrc"
+  chmod +x "$HOME/.config/sxhkd/sxhkdrc"
+  mkdir -p "$HOME/.local/share/icons/dunst"
+  cp ./dotfiles/icons/* "$HOME/.local/share/icons/dunst"
+}
+
+function install_zsh_config() {
+  install zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
+  rm -rf "$HOME/.oh-my-zsh"
+  clear
+  echo "Cuando termine de instalar Oh My Zsh, escribe exit para cerrar la terminal y volver a este script."
+  read -p "Presiona Enter para continuar..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  clear
+  cp -rf ./dotfiles/.zshrc "$HOME/"
+}
+
+# Instalacion
+check_root
+print_welcome
 sudo pacman -Syu
 read -p "Actualizacion completada. Presiona Enter para continuar..."
 clear
@@ -83,8 +128,7 @@ read -p "Quieres instalar los paquetes basicos? (y/N)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
   install git base-devel vim neovim wget htop ripgrep fastfetch zip unzip xclip xdotool man-db xdg-user-dirs xorg-xrandr lightdm lightdm-gtk-greeter bspwm sxhkd picom feh dunst polybar alacritty kitty rofi thunar firefox viewnior maim pulseaudio pulsemixer pulseaudio-alsa xsettingsd materia-gtk-theme papirus-icon-theme redshift polkit-gnome xcolor
 fi
-
-read -p "Instalacion completada. Presiona Enter para continuar..."
+read -p "Instalacion de paquetes basicos completada. Presiona Enter para continuar..."
 clear
 
 read -p "Quieres instalar algun paquete adicional? (y/N)" confirm
@@ -96,26 +140,13 @@ echo "¡Instalación de paquetes completada!"
 read -p "Presiona Enter para continuar..."
 clear
 
-systemctl --user enable pulseaudio.service
-sudo systemctl enable bluetooth.service
-sudo systemctl enable lightdm.service
-sudo chown -R "$USER":"$USER" "$HOME/"
+enable_services
 
 echo "¡Servicios habilitados!"
 read -p "Presiona Enter para continuar..."
 clear
 
-# Comandos de configuracion de usuario (sin sudo)
-mkdir -p "$HOME/.config"
-cp -rf ./dotfiles/.config/* "$HOME/.config"
-cp -rf ./dotfiles/.xsettingsd "$HOME/"
-mkdir -p "$HOME/Pictures"
-cp ./dotfiles/Pictures/wallpaper.png "$HOME/Pictures"
-cp ./dotfiles/Pictures/wallpaper.jpg "$HOME/Pictures"
-chmod +x "$HOME/.config/bspwm/bspwmrc"
-chmod +x "$HOME/.config/sxhkd/sxhkdrc"
-mkdir -p "$HOME/.local/share/icons/dunst"
-cp ./dotfiles/icons/* "$HOME/.local/share/icons/dunst"
+copy_dotfiles
 
 echo "¡Instalación de dotfiles completada!"
 read -p "Presiona Enter para continuar..."
@@ -129,14 +160,7 @@ clear
 
 read -p "Quieres instalar mi zsh personal? (y/N)" confirm
 if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
-  install zsh zoxide zsh-autocomplete zsh-autosuggestions zsh-syntax-highlighting fzf bat tree fd
-  rm -rf "$HOME/.oh-my-zsh"
-  clear
-  echo "Cuando termine de instalar Oh My Zsh, escribe exit para cerrar la terminal y volver a este script."
-  read -p "Presiona Enter para continuar..."
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  clear
-  cp -rf ./dotfiles/.zshrc "$HOME/"
+  install_zsh_config
   echo "¡Instalación de zsh completada!"
 fi
 
