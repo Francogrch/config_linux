@@ -14,6 +14,12 @@ Este repositorio contiene mi configuración personal para un entorno de escritor
 - **Shell:** Zsh con Oh My Zsh, autocompletado y resaltado de sintaxis.
 - **Temas:** Tema Materia GTK y iconos Papirus.
 
+## 📚 Documentación Detallada
+
+Para una comprensión más profunda de la filosofía del entorno, el rol de cada componente, las guías de personalización y una lista completa de atajos, consulta nuestro índice de documentación:
+
+-   **[Índice de la Documentación](./docs/index.md)**
+
 ## Instalación
 
 La instalación se realiza en dos fases: la instalación base de Arch Linux y la ejecución de mi script personal para configurar el entorno.
