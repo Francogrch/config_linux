@@ -52,6 +52,20 @@ function install() {
   fi
 }
 
+function install_aur_helper() {
+  if ! command -v yay &>/dev/null; then
+    echo "Instalando yay (AUR helper)..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    cd /tmp/yay || exit
+    makepkg -si --noconfirm
+    cd - || exit
+    rm -rf /tmp/yay
+    echo "Yay instalado."
+  else
+    echo "Yay ya está instalado."
+  fi
+}
+
 function paquetes_adicionales() {
   read -p "Quieres instalar los paquetes de bluetooth? (y/N)" confirm
   if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
@@ -83,6 +97,11 @@ function paquetes_adicionales() {
   read -p "Quieres instalar los paquetes de gaming? (y/N)" confirm
   if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
     install steam lutris
+  fi
+
+  read -p "Quieres instalar Yay (AUR helper)? (y/N)" confirm
+  if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+    install_aur_helper
   fi
 }
 

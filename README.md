@@ -131,6 +131,7 @@ El script `install.sh` instalará los siguientes paquetes, organizados por categ
 - **`bat`**: Un `cat` con resaltado de sintaxis y Git.
 - **`tree`**: Muestra la estructura de directorios en forma de árbol.
 - **`fd`**: Alternativa simple y rápida a `find`.
+- **`lsd`**: Alternativa moderna a `ls`.
 
 ### Bluetooth (Opcional)
 
@@ -161,7 +162,7 @@ El repositorio incluye un script para realizar copias de seguridad de tus archiv
     sudo pacman -S rsync
     ```
 2.  **Ejecutar el script:**
-    El archivo `antiguo/scripts/list_back.txt` contiene la lista de archivos y carpetas que se copiarán.
+    El archivo `docs/scripts/list_back.txt` contiene la lista de archivos y carpetas que se copiarán.
     ```bash
-    ./antiguo/scripts/backup.sh
+    ./docs/scripts/backup.sh
     ```
