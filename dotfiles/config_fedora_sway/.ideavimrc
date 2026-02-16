@@ -1,0 +1,61 @@
+"" --- CONFIGURACIÓN GENERAL ---
+let mapleader = " "
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set perspective
+set visualbell
+set sneak
+
+"" --- KEYMAPS ---
+
+" Salir de modo insert con jk
+imap jk <Esc>
+
+" Guardar con Ctrl+s (mapeado a la acción nativa de guardar de IntelliJ)
+nmap <C-s> <Action>(SaveAll)
+
+" Salir con leader + q
+nmap <leader>q <Action>(CloseContent)
+
+" Moverse entre ventanas (splits) con Ctrl + H/J/K/L
+" Nota: Esto emula tu configuración de <C-w>h, etc.
+nmap <C-h> <C-W>h
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-l> <C-W>l
+
+" Crear nuevos Splits (Leader + o para vertical, p para horizontal)
+nmap <leader>o <Action>(SplitVertically)
+nmap <leader>p <Action>(SplitHorizontally)
+
+" Moverse entre pestañas (Buffers) con H y L
+" Esto emula tu BufferLineCycle de Neovim
+nmap L <Action>(NextTab)
+nmap H <Action>(PreviousTab)
+
+"" --- PLUGINS EMULATION ---
+
+" NeoTree (Explorador de archivos)
+" Mapeamos leader + e para abrir/cerrar la barra lateral
+nmap <leader>e <Action>(ActivateProjectToolWindow)
+
+" Telescope (Búsqueda de archivos)
+" IntelliJ ya tiene un buscador potente, usamos sus acciones:
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fg <Action>(FindInPath)
+nmap <leader>fb <Action>(Switcher)
+nmap <leader>fh <Action>(HelpTopics)
+
+" Limpiar resaltado de búsqueda con Esc
+nnoremap <Esc> :noh<CR>
+
+" Eliminar el buffer (cerrar pestaña actual)
+nmap <leader>bd <Action>(CloseContent)
+
+" Abrir/Cerrar el explorador (NeoTree toggle)
+nmap <leader>e <Action>(ActivateProjectToolWindow)
+
+" Poner el foco en el explorador (NeoTree focus)
+nmap <leader>r <Action>(SelectInProjectView)
