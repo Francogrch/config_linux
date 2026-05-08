@@ -1,0 +1,114 @@
+##---------- Programas (Sway + Alacritty) ----------##
+
+# Terminal principal (Alacritty)
+super + Return
+    alacritty
+
+# Terminal flotante (Kitty si la seguís teniendo, sino alacritty con float)
+super + shift + Return
+    kitty --class 'kitty-float'
+
+# Lanzador de aplicaciones (Prioridad a tus scripts de bspwm)
+super + d
+    $HOME/.config/bspwm/scripts/rofi_launcher
+
+# Aplicaciones rápidas (De tu config de Sway)
+super + shift + f
+    thunar
+
+super + shift + w
+    firefox
+
+super + x
+    $HOME/.config/bspwm/scripts/rofi_powermenu
+
+# Menu Wifi (Usando tu script de wofi, pero rofi suele ser compatible)
+super + shift + n
+    ~/.config/wofi/wofi-wifi-menu/wofi-wifi-menu.sh
+
+# Bluetooth (Sway config)
+super + shift + b
+    blueman-manager
+
+##---------- Gestión de Audio (Mini-Keyboard) ----------##
+
+# Cambiar entre Auriculares y Parlantes (Tu script toggle-audio)
+XF86Tools
+    /usr/local/bin/toggle-audio
+
+# Mute Mic
+XF86Launch5
+    /usr/local/bin/mute-mic
+
+# Subir volumen (5%)
+XF86AudioRaiseVolume
+    wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ 
+
+# Bajar volumen (5%)
+XF86AudioLowerVolume
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- 
+
+# Mute/Unmute Salida (Auriculares/Parlantes)
+XF86AudioMute
+    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle 
+##---------- Bspwm Nodos y Ventanas ----------##
+
+# Cerrar ventana (Cualquiera de los dos atajos que recordés)
+super + {_,shift + }q
+    bspc node -{c,k}
+
+# Forzar cierre (Xorg only)
+ctrl + alt + Escape
+    xkill
+
+# Reiniciar o Salir de bspwm
+ctrl + shift + {r,q}
+    bspc {wm -r,quit}
+
+# Recargar atajos (Sxhkd)
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# Cambiar foco o intercambiar ventanas (Vim keys + Flechas)
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+
+super + {_,shift + }{Left,Down,Up,Right}
+    bspc node -{f,s} {west,south,north,east}
+
+# Estados de ventana
+super + f
+    bspc node -t "~"fullscreen
+
+super + space
+    bspc node -t "~"{floating,tiled}
+
+# Preseleccionar el split (H o V)
+super + {b,v}
+    bspc node -p {east,south}
+
+##---------- Workspaces (1 a 10 como en Sway) ----------##
+
+# Cambiar de escritorio o enviar ventana
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} '^{1-9,10}' --follow
+
+##---------- Capturas y Sistema ----------##
+
+# Captura de pantalla (Xorg usa flameshot o tu script viejo)
+super + shift + s
+    flameshot gui
+
+# Color Picker
+super + p
+    $HOME/.config/bspwm/scripts/bspcolorpicker
+
+##---------- Resizing (Modo Sway simulado) ----------##
+
+# Expandir ventanas con Ctrl
+super + control + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# Contraer ventanas con Alt
+super + alt + {h,j,k,l}
+    bspc node -z {left 20 0,bottom 0 -20,top 0 20,right -20 0}
