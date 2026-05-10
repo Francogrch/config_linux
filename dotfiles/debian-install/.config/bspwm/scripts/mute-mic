@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PACTL="/usr/bin/pactl"
+NOTIFY="/usr/bin/notify-send"
+
+# 1. Aplicar el toggle de mute a la fuente (micrófono) por defecto
+$PACTL set-source-mute @DEFAULT_SOURCE@ toggle
+
+# 2. Verificar el estado actual para la notificación
+# Buscamos si el estado es 'yes' (silenciado)
+IS_MUTED=$($PACTL get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}')
+
+if [ "$IS_MUTED" = "no" ]; then
+    $NOTIFY "Micrófono" "Activado (ON)" -i microphone-sensitivity-high-symbolic -t 1500
+else
+    $NOTIFY "Micrófono" "Silenciado (MUTE)" -i microphone-sensitivity-muted-symbolic -t 1500
+fi

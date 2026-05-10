@@ -1,0 +1,16 @@
+#!/bin/bash
+
+WPCTL="/usr/bin/wpctl"
+NOTIFY="/usr/bin/notify-send"
+
+# 1. Aplicar el toggle de mute al micrófono por defecto
+$WPCTL set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# 2. Verificar el estado actual para la notificación
+IS_MUTED=$($WPCTL get-volume @DEFAULT_AUDIO_SOURCE@ | grep -i "MUTED")
+
+if [ -z "$IS_MUTED" ]; then
+    $NOTIFY "Micrófono" "Activado (ON)" -i microphone-sensitivity-high -t 1500
+else
+    $NOTIFY "Micrófono" "Silenciado (MUTE)" -i microphone-sensitivity-muted -t 1500
+fi

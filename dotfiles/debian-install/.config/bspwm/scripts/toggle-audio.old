@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# --- 1. OBTENER IDs DE SALIDA (SINKS) ---
+ID_H_OUT=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep "HyperX Cloud Flight S Analog Stereo" | grep -oP '\d+(?=\.)' | head -n 1)
+ID_S_OUT=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep "Starship/Matisse HD Audio Controller Analog Stereo" | grep -oP '\d+(?=\.)' | head -n 1)
+
+# --- 2. OBTENER IDs DE ENTRADA (SOURCES / FILTERS) ---
+# Para HyperX
+ID_H_IN=$(wpctl status | sed -n '/Sources:/,/Filters:/p' | grep "HyperX Cloud Flight S Mono" | grep -oP '\d+(?=\.)' | head -n 1)
+
+# PARA LA SCARLETT (Lógica reforzada):
+# 1. Buscamos la línea de Mic1
+# 2. Usamos el punto (.) como separador de campos
+# 3. El ID es el último bloque de la primera parte
+ID_SCARLETT_IN=$(wpctl status | grep "Focusrite_Scarlett_Solo_USB" | grep "Mic1" | awk -F'.' '{print $1}' | awk '{print $NF}')
+
+# --- 3. IDENTIFICAR SALIDA ACTUAL ---
+CURRENT_OUT=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | grep "*" | grep -oP '\d+(?=\.)' | head -n 1)
+
+# --- 4. LÓGICA DE INTERCAMBIO ---
+if [ "$CURRENT_OUT" = "$ID_H_OUT" ]; then
+    # CAMBIO A: Altavoces + Scarlett Solo
+    wpctl set-default "$ID_S_OUT"
+    if [ -n "$ID_SCARLETT_IN" ]; then
+        wpctl set-default "$ID_SCARLETT_IN"
+        msg_in="Entrada: Scarlett Solo (ID $ID_SCARLETT_IN)"
+    fi
+    notify-send "Audio" "Salida: Altavoces\n$msg_in" -i audio-speakers -t 2000
+else
+    # CAMBIO A: Auriculares + Mic HyperX
+    wpctl set-default "$ID_H_OUT"
+    if [ -n "$ID_H_IN" ]; then
+        wpctl set-default "$ID_H_IN"
+        msg_in="Entrada: Mic HyperX (ID $ID_H_IN)"
+    fi
+    notify-send "Audio" "Salida: HyperX\n$msg_in" -i audio-headphones -t 2000
+fi

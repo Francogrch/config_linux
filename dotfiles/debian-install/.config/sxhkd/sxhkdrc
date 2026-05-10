@@ -34,23 +34,23 @@ super + shift + b
 
 # Cambiar entre Auriculares y Parlantes (Tu script toggle-audio)
 XF86Tools
-    /usr/local/bin/toggle-audio
+    $HOME/.config/bspwm/scripts/toogle-audio
 
 # Mute Mic
 XF86Launch5
-    /usr/local/bin/mute-mic
+    $HOME/.config/bspwm/scripts/mute-mic
 
 # Subir volumen (5%)
 XF86AudioRaiseVolume
-    wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ 
+    pactl set-sink-volume @DEFAULT_SINK@ +5%
 
 # Bajar volumen (5%)
 XF86AudioLowerVolume
-    wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- 
+    pactl set-sink-volume @DEFAULT_SINK@ -5%
 
-# Mute/Unmute Salida (Auriculares/Parlantes)
+# Mute/Unmute
 XF86AudioMute
-    wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle 
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
 ##---------- Bspwm Nodos y Ventanas ----------##
 
 # Cerrar ventana (Cualquiera de los dos atajos que recordés)
