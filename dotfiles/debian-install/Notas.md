@@ -37,12 +37,16 @@ reboot
 
 sudo apt install git curl -y
 
+git clone <>
 
-
-
-
-
-
+cd config_linux/dotfiles/debian-install 
+chmod +x debian_install.sh
 
 ```
+
+## Cosas que faltan
+- Instalar postgres y configurar el usuario y la contraseña
+- Instalar nodejs, npm y pnpm
+- Instalar docker y docker compose
+
 
