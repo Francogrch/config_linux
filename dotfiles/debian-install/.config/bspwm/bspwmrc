@@ -27,7 +27,7 @@ bspc rule -a "steam_app_252950" state=floating border=off
 pgrep -x sxhkd >/dev/null || sxhkd &
 
 # Fondo de pantalla (requiere: feh)
-feh --bg-fill ~/Pictures/wallpaper.png &
+feh --bg-fill ~/Pictures/wallpaper.jpg &
 
 # Compositor (Para que no haya tearing con la 3080. Requiere: picom)
 picom --animations -b &

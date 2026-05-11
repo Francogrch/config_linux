@@ -70,7 +70,7 @@ install_core() {
     rsync -av --exclude='picom' "$BASE_DIR/.config/" ~/.config/
   fi
 
-  [ -d "$BASE_DIR/images" ] && cp -r "$BASE_DIR/images"/* ~/images/
+  [ -d "$BASE_DIR/Pictures" ] && cp -r "$BASE_DIR/Pictures"/* ~/Pictures/
   [ -f "$BASE_DIR/.zshrc" ] && cp "$BASE_DIR/.zshrc" "$HOME/.zshrc"
 
   sudo chsh -s $(which zsh) $CURRENT_ACTUAL_USER
