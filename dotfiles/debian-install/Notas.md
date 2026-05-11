@@ -45,7 +45,6 @@ chmod +x debian_install.sh
 ```
 
 ## Cosas que faltan
-- vlc
 
 
 

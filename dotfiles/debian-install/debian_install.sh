@@ -30,7 +30,7 @@ install_core() {
   PACKAGES="bspwm sxhkd lightdm lightdm-gtk-greeter alacritty polybar feh nitrogen lxappearance \
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
-              zsh-syntax-highlighting libfuse2 rsync"
+              zsh-syntax-highlighting libfuse2 rsync nodejs npm python3-venv python3-pip vim vlc chromium libreoffice obs-studio"
 
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES
@@ -92,9 +92,9 @@ install_dev_apps() {
   sudo curl -L https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o /usr/local/bin/nvim
   sudo chmod +x /usr/local/bin/nvim
 
-  # Vesktop
+  # Flatpak apps (Postman, Vesktop)
   sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  sudo flatpak install flathub dev.vencord.Vesktop -y
+  sudo flatpak install flathub dev.vencord.Vesktop com.getpostman.Postman -y
 }
 
 # --- OTHER FUNCTIONS REMAIN UNCHANGED ---
