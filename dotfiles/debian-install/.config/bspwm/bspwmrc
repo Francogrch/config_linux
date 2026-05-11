@@ -40,7 +40,9 @@ nm-applet & # Para el icono de wifi en la barra
 xss-lock -- betterlockscreen -l &
 
 # --- Autostart para que todo funcione como en Sway ---
-dunst &                                                       # Para que veas las notificaciones del script
-/usr/lib/polkit-1-gnome/polkit-gnome-authentication-agent-1 & # Para que te pida contraseña en GUI
+dunst & # Para que veas las notificaciones del script
+
+# Reemplazo para Debian Trixie
+lxpolkit &
 
 ~/.config/polybar/launch.sh --cuts &

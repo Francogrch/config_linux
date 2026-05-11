@@ -23,15 +23,17 @@ ask_user() {
 
 install_core() {
   echo -e "${GREEN}Configuring base environment and Zsh dependencies...${NC}"
-  sudo sed -i 's/main$/main contrib non-free non-free-firmware/' /etc/apt/sources.list
+  # Esto agrega contrib, non-free y non-free-firmware a todas las líneas deb que no los tengan
+  sudo sed -i 's/ main$/ main contrib non-free non-free-firmware/g' /etc/apt/sources.list
+  # Por si acaso Trixie usa archivos separados en sources.list.d/
+  sudo sed -i 's/ main$/ main contrib non-free non-free-firmware/g' /etc/apt/sources.list.d/*.list 2>/dev/null
   sudo apt update
 
-  # Added libfuse2 for Neovim and rsync for config migration
   PACKAGES="bspwm sxhkd lightdm lightdm-gtk-greeter alacritty polybar feh nitrogen lxappearance \
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
               zsh-syntax-highlighting libfuse2t64 rsync vim vlc chromium libreoffice obs-studio \
-              gnome-disk-utility easyeffects network-manager-gnome dunst policykit-1-gnome xss-lock"
+              gnome-disk-utility easyeffects network-manager-gnome dunst lxpolkit xss-lock"
 
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES
@@ -116,14 +118,17 @@ install_node() {
   npm install -g pnpm
 }
 
-install_postgres() {
-  sudo apt install -y postgresql postgresql-contrib
-  read -p "Enter username for Postgres (Default: $CURRENT_ACTUAL_USER): " PG_USER
-  PG_USER=${PG_USER:-$CURRENT_ACTUAL_USER}
-  read -sp "Set password for Postgres user '$PG_USER': " PG_PASS
-  echo ""
-  sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PASS' SUPERUSER;"
-  sudo -u postgres psql -c "CREATE DATABASE $PG_USER OWNER $PG_USER;"
+install_nvidia() {
+  echo -e "${GREEN}Installing NVIDIA drivers...${NC}"
+  sudo apt update
+  sudo apt install -y linux-headers-$(uname -r) nvidia-driver firmware-misc-nonfree nvidia-settings nvidia-xconfig
+
+  if command -v nvidia-xconfig >/dev/null; then
+    echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf
+    sudo nvidia-xconfig
+  else
+    echo -e "${RED}Error: NVIDIA drivers were not installed correctly.${NC}"
+  fi
 }
 
 install_nvidia() {
