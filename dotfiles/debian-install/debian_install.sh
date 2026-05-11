@@ -30,7 +30,8 @@ install_core() {
   PACKAGES="bspwm sxhkd lightdm lightdm-gtk-greeter alacritty polybar feh nitrogen lxappearance \
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
-              zsh-syntax-highlighting libfuse2 rsync nodejs npm python3-venv python3-pip vim vlc chromium libreoffice obs-studio"
+              zsh-syntax-highlighting libfuse2t64 rsync vim vlc chromium libreoffice obs-studio \
+              gnome-disk-utility easyeffects network-manager-gnome dunst policykit-1-gnome xss-lock"
 
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES

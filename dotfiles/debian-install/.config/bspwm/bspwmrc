@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 $HOME/.config/bspwm/scripts/display_setup.sh &
 
 # --- Monitores ---
@@ -10,14 +9,13 @@ bspc monitor DP-0 -d 1 2 3 4 5
 bspc monitor HDMI-0 -d 6 7 8 9 10
 
 # --- Configuración Visual (Gaps y Bordes) ---
-bspc config border_width         3
-bspc config window_gap          5
-bspc config split_ratio          0.50
-bspc config borderless_monocle   true
-bspc config gapless_monocle      true
+bspc config border_width 3
+bspc config window_gap 5
+bspc config split_ratio 0.50
+bspc config borderless_monocle true
+bspc config gapless_monocle true
 bspc config focused_border_color "#5e81ac"
-bspc config normal_border_color  "#4c566a"
-
+bspc config normal_border_color "#4c566a"
 
 # --- Reglas de Ventanas ---
 bspc rule -a Blueman-manager state=floating
@@ -26,29 +24,23 @@ bspc rule -a "steam_app_252950" state=floating border=off
 
 # --- Autostart ---
 # sxhkd es vital, es el que lee tus atajos
-pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x sxhkd >/dev/null || sxhkd &
 
 # Fondo de pantalla (requiere: feh)
-feh --bg-fill /home/franco/Pictures/wallpaper.png &
+feh --bg-fill ~/Pictures/wallpaper.png &
 
 # Compositor (Para que no haya tearing con la 3080. Requiere: picom)
 picom --animations -b &
 
 # Applets
 blueman-applet &
-nm-applet &  # Para el icono de wifi en la barra
+nm-applet & # Para el icono de wifi en la barra
 
 # Bloqueo e Idle (Equivalente a swayidle. Requiere: xss-lock e i3lock)
 xss-lock -- betterlockscreen -l &
 
 # --- Autostart para que todo funcione como en Sway ---
-sxhkd &                # Vital para que tus teclas funcionen
-dunst &                # Para que veas las notificaciones del script
-picom -b               # Para que no tengas tearing en la 3080
-nm-applet &            # Icono de red
-blueman-applet &       # Icono de bluetooth (que tenías en Sway)
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & # Para que te pida contraseña en GUI
-
-
+dunst &                                                       # Para que veas las notificaciones del script
+/usr/lib/polkit-1-gnome/polkit-gnome-authentication-agent-1 & # Para que te pida contraseña en GUI
 
 ~/.config/polybar/launch.sh --cuts &
