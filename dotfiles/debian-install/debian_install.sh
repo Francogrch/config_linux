@@ -22,13 +22,23 @@ ask_user() {
 # --- FUNCTIONS ---
 
 install_core() {
-  echo -e "${GREEN}Configuring base environment and Zsh dependencies...${NC}"
-  # Esto agrega contrib, non-free y non-free-firmware a todas las líneas deb que no los tengan
-  sudo sed -i 's/ main$/ main contrib non-free non-free-firmware/g' /etc/apt/sources.list
-  # Por si acaso Trixie usa archivos separados en sources.list.d/
-  sudo sed -i 's/ main$/ main contrib non-free non-free-firmware/g' /etc/apt/sources.list.d/*.list 2>/dev/null
+  echo -e "${GREEN}Configuring base environment and repositories...${NC}"
+
+  # 1. CLEAN SOURCES.LIST (Full access for Trixie)
+  sudo bash -c "cat <<EOF > /etc/apt/sources.list
+deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+
+deb http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+deb-src http://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
+
+deb http://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+deb-src http://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+EOF"
+
   sudo apt update
 
+  # All dependencies for your configs (sxhkdrc, bspwmrc, zshrc)
   PACKAGES="bspwm sxhkd lightdm lightdm-gtk-greeter alacritty polybar feh nitrogen lxappearance \
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
@@ -38,7 +48,7 @@ install_core() {
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES
 
-  # Symlinks for fd and bat (Debian compatibility)
+  # Debian compatibility symlinks (for your fzf aliases)
   mkdir -p "$HOME/.local/bin"
   ln -sf $(which fdfind) "$HOME/.local/bin/fd"
   ln -sf $(which batcat) "$HOME/.local/bin/bat"
@@ -55,15 +65,15 @@ install_core() {
   [ -d "$ZSH" ] && rm -rf "$ZSH"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-  # Zsh Plugins/Themes
+  # Zsh Plugins & Themes
   echo -e "${BLUE}Installing Zsh Plugins and Themes...${NC}"
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
-  # Fix for your .zshrc: Ensure /usr/share/zsh-autocomplete exists
+  # Path requested by your .zshrc
   sudo rm -rf /usr/share/zsh-autocomplete
   sudo git clone --depth 1 https://github.com/marlonrichert/zsh-autocomplete.git /usr/share/zsh-autocomplete
 
-  # Restore configs
+  # Restoration of Dotfiles
   echo -e "${BLUE}Restoring .config files...${NC}"
   mkdir -p ~/.config
   if [ "$INSTALL_PICOM" = true ]; then
@@ -72,37 +82,28 @@ install_core() {
     rsync -av --exclude='picom' "$BASE_DIR/.config/" ~/.config/
   fi
 
+  # Fix for Wallpapers and Zshrc
+  mkdir -p ~/Pictures
   [ -d "$BASE_DIR/Pictures" ] && cp -r "$BASE_DIR/Pictures"/* ~/Pictures/
   [ -f "$BASE_DIR/.zshrc" ] && cp "$BASE_DIR/.zshrc" "$HOME/.zshrc"
 
   sudo chsh -s $(which zsh) $CURRENT_ACTUAL_USER
 }
 
-install_dev_apps() {
-  echo -e "${GREEN}Installing Dev Apps (VS Code, DBeaver, Neovim)...${NC}"
-
-  # Repositories
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/vscode.gpg >/dev/null
-  echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/vscode.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
-
-  wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/dbeaver.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/dbeaver.gpg] https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
-  sudo apt update && sudo apt install -y code dbeaver-ce flatpak
-
-  # --- REFINED NEOVIM INSTALLATION ---
-  echo -e "${BLUE}Downloading Neovim...${NC}"
-  sudo rm -f /usr/local/bin/nvim
-  # Download directly to /usr/local/bin to avoid move errors
-  sudo curl -L https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o /usr/local/bin/nvim
-  sudo chmod +x /usr/local/bin/nvim
-
-  # Flatpak apps (Postman, Vesktop)
-  sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  sudo flatpak install flathub dev.vencord.Vesktop com.getpostman.Postman -y
+install_postgres() {
+  echo -e "${GREEN}Installing PostgreSQL...${NC}"
+  sudo apt install -y postgresql postgresql-contrib
+  echo -e "\n${BLUE}PostgreSQL Configuration${NC}"
+  read -p "Enter username for Postgres (Default: $CURRENT_ACTUAL_USER): " PG_USER
+  PG_USER=${PG_USER:-$CURRENT_ACTUAL_USER}
+  read -sp "Set password for Postgres user '$PG_USER': " PG_PASS
+  echo ""
+  sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PASS' SUPERUSER;"
+  sudo -u postgres psql -c "CREATE DATABASE $PG_USER OWNER $PG_USER;"
 }
 
-# --- OTHER FUNCTIONS REMAIN UNCHANGED ---
 install_docker() {
+  echo -e "${GREEN}Installing Docker and Docker Compose...${NC}"
   sudo apt install -y ca-certificates gnupg lsb-release
   sudo install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -112,6 +113,7 @@ install_docker() {
 }
 
 install_node() {
+  echo -e "${GREEN}Installing Node.js (fnm) and PNPM...${NC}"
   curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
   export PATH="$HOME/.local/share/fnm:$PATH"
   eval "$(fnm env)"
@@ -120,36 +122,56 @@ install_node() {
 }
 
 install_nvidia() {
-  echo -e "${GREEN}Installing NVIDIA drivers...${NC}"
+  echo -e "${GREEN}Installing NVIDIA drivers (RTX 3080)...${NC}"
   sudo apt update
   sudo apt install -y linux-headers-$(uname -r) nvidia-driver firmware-misc-nonfree nvidia-settings nvidia-xconfig
-
   if command -v nvidia-xconfig >/dev/null; then
     echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf
     sudo nvidia-xconfig
-  else
-    echo -e "${RED}Error: NVIDIA drivers were not installed correctly.${NC}"
   fi
 }
 
-install_nvidia() {
-  sudo apt install -y linux-headers-$(uname -r) nvidia-driver firmware-misc-nonfree nvidia-settings nvidia-xconfig
-  echo "options nvidia-drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf
-  sudo nvidia-xconfig
-}
-
 install_audio() {
+  echo -e "${GREEN}Configuring Pipewire...${NC}"
   sudo apt install -y pipewire-audio-client-libraries pipewire-pulse pipewire-alsa pipewire-jack wireplumber pavucontrol
   systemctl --user --now enable pipewire.service pipewire-pulse.service wireplumber.service
+}
+
+install_dev_apps() {
+  echo -e "${GREEN}Installing Dev Apps (VS Code, DBeaver, Neovim, Postman)...${NC}"
+
+  # VS Code (Fix: only main component)
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/vscode.gpg >/dev/null
+  echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/vscode.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
+
+  # DBeaver (Fix: only main component)
+  wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/dbeaver.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/dbeaver.gpg] https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+
+  sudo apt update && sudo apt install -y code dbeaver-ce flatpak
+
+  # Neovim (Latest AppImage)
+  sudo rm -f /usr/local/bin/nvim
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+  chmod +x nvim-linux-x86_64.appimage
+  sudo mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
+
+  # Flatpak apps
+  sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  sudo flatpak install flathub dev.vencord.Vesktop com.getpostman.Postman -y
 }
 
 # --- MAIN MENU ---
 clear
 echo -e "${GREEN}DEBIAN PROFESSIONAL DEPLOYMENT SYSTEM${NC}"
-echo "1) Full Install (Desktop - NVIDIA/Picom)"
+echo "-----------------------------------------------------------"
+echo "1) Full Install (Desktop - NVIDIA/Picom/Database/All)"
 echo "2) Laptop Install (No NVIDIA/Picom)"
 echo "3) Manual Selection"
-read -p "Selection [1-3]: " mode
+echo "4) Exit"
+read -p "Selection [1-4]: " mode
+
+sudo apt update && sudo apt install -y rsync curl git wget apt-transport-https unzip build-essential lsb-release
 
 case $mode in
 1)
@@ -164,14 +186,15 @@ case $mode in
   ;;
 3)
   MANUAL_MODE=true
-  ask_user "Core?" && install_core
+  ask_user "Core Env?" && install_core
   ask_user "NVIDIA?" && install_nvidia
   ask_user "Audio?" && install_audio
   ask_user "Postgres?" && install_postgres
   ask_user "Node?" && install_node
   ask_user "Docker?" && install_docker
-  ask_user "Apps?" && install_dev_apps
+  ask_user "Dev Apps?" && install_dev_apps
   ;;
+*) exit 0 ;;
 esac
 
-echo -e "\n${GREEN}Deployment finished! Reboot recommended.${NC}"
+echo -e "\n${GREEN}Deployment finished! Please reboot to apply all changes.${NC}"
