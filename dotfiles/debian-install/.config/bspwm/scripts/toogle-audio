@@ -1,25 +1,29 @@
 #!/bin/bash
 
-# --- 1. DEFINIR NOMBRES DE LOS DISPOSITIVOS (Permanentes) ---
-# Puedes ver los nombres exactos con: pactl list sinks short | awk '{print $2}'
-AURICULARES="alsa_output.usb-HyperX_Cloud_Flight_S-00.analog-stereo"
-ALTAVOCES="alsa_output.pci-0000_0b_00.4.analog-stereo" # El chip Starship/Matisse
+# --- 1. BUSCAR DISPOSITIVOS DINÁMICAMENTE ---
+# Buscamos el nombre real basándonos en palabras clave
+AURICULARES=$(pactl list sinks short | awk '{print $2}' | grep -i "HyperX" | head -n 1)
+ALTAVOCES=$(pactl list sinks short | awk '{print $2}' | grep -iE "Starship|Matisse|analog-stereo" | grep -v "HyperX" | head -n 1)
 
-MIC_HYPERX="alsa_input.usb-HyperX_Cloud_Flight_S-00.mono-fallback"
-MIC_SCARLETT="alsa_input.usb-Focusrite_Scarlett_Solo_USB-00.analog-mono" 
+MIC_HYPERX=$(pactl list sources short | awk '{print $2}' | grep -i "HyperX" | head -n 1)
+MIC_SCARLETT=$(pactl list sources short | awk '{print $2}' | grep -i "Scarlett" | head -n 1)
 
 # --- 2. IDENTIFICAR SALIDA ACTUAL ---
 CURRENT_OUT=$(pactl get-default-sink)
 
 # --- 3. LÓGICA DE INTERCAMBIO ---
-if [ "$CURRENT_OUT" = "$AURICULARES" ]; then
-    # CAMBIO A: Altavoces + Scarlett Solo (Modo Canto)
-    pactl set-default-sink "$ALTAVOCES"
-    pactl set-default-source "$MIC_SCARLETT"
-    notify-send "Audio" "Modo: Altavoces + Scarlett" -i audio-speakers -t 2000
+if [ "$CURRENT_OUT" = "$AURICULARES" ] && [ -n "$ALTAVOCES" ]; then
+  # CAMBIO A: Altavoces + Scarlett Solo (Modo Canto)
+  pactl set-default-sink "$ALTAVOCES"
+  [ -n "$MIC_SCARLETT" ] && pactl set-default-source "$MIC_SCARLETT"
+  notify-send "Audio" "Modo: Altavoces + Scarlett" -i audio-speakers -t 2000
 else
-    # CAMBIO A: Auriculares + Mic HyperX (Modo Gaming/Dev)
+  # CAMBIO A: Auriculares + Mic HyperX (Modo Gaming/Dev)
+  if [ -n "$AURICULARES" ]; then
     pactl set-default-sink "$AURICULARES"
-    pactl set-default-source "$MIC_HYPERX"
+    [ -n "$MIC_HYPERX" ] && pactl set-default-source "$MIC_HYPERX"
     notify-send "Audio" "Modo: HyperX Cloud" -i audio-headphones -t 2000
+  else
+    notify-send "Audio" "Error: No se detectan los HyperX" -t 2000
+  fi
 fi

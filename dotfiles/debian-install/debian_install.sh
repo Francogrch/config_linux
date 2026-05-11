@@ -82,6 +82,9 @@ EOF"
     rsync -av --exclude='picom' "$BASE_DIR/.config/" ~/.config/
   fi
 
+  echo -e "${BLUE}Setting execution permissions for scripts...${NC}"
+  [ -d "$HOME/.config/bspwm/scripts" ] && chmod +x $HOME/.config/bspwm/scripts/*
+
   # Fix for Wallpapers and Zshrc
   mkdir -p ~/Pictures
   [ -d "$BASE_DIR/Pictures" ] && cp -r "$BASE_DIR/Pictures"/* ~/Pictures/
