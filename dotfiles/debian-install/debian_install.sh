@@ -97,9 +97,9 @@ install_postgres() {
   echo -e "${GREEN}Installing PostgreSQL...${NC}"
   sudo apt install -y postgresql postgresql-contrib
   echo -e "\n${BLUE}PostgreSQL Configuration${NC}"
-  read -p "Enter username for Postgres (Default: $CURRENT_ACTUAL_USER): " PG_USER
+  read -p "Enter username for Postgres (root) (Default: $CURRENT_ACTUAL_USER): " PG_USER
   PG_USER=${PG_USER:-$CURRENT_ACTUAL_USER}
-  read -sp "Set password for Postgres user '$PG_USER': " PG_PASS
+  read -sp "Set password for Postgres (example) user '$PG_USER': " PG_PASS
   echo ""
   sudo -u postgres psql -c "CREATE USER $PG_USER WITH PASSWORD '$PG_PASS' SUPERUSER;"
   sudo -u postgres psql -c "CREATE DATABASE $PG_USER OWNER $PG_USER;"
@@ -219,4 +219,4 @@ case $mode in
 *) exit 0 ;;
 esac
 
-echo -e "\n${GREEN}Deployment finished! Please reboot to apply all changes.${NC}"
+echo -e "\n${GREEN}Deployment finished! Please reboot to apply all changes. (systemctl reboot) ${NC}"
