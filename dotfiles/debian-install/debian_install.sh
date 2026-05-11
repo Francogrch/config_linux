@@ -43,7 +43,7 @@ EOF"
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
               zsh-syntax-highlighting libfuse2t64 rsync vim vlc chromium libreoffice obs-studio \
-              gnome-disk-utility easyeffects network-manager-gnome dunst lxpolkit xss-lock"
+              gnome-disk-utility easyeffects network-manager-gnome dunst lxpolkit xss-lock libnotify-bin"
 
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES
@@ -161,6 +161,24 @@ install_dev_apps() {
   sudo flatpak install flathub dev.vencord.Vesktop com.getpostman.Postman -y
 }
 
+config_git() {
+  echo -e "${GREEN}Configuring Git with conditional identities...${NC}"
+  read -p "Enter your Global Git Name: " GIT_NAME
+  read -p "Enter your PERSONAL email: " GIT_PERSONAL_EMAIL
+  read -p "Enter your WORK email: " GIT_WORK_EMAIL
+
+  git config --global user.name "$GIT_NAME"
+  mkdir -p ~/Documents/personal ~/Documents/work
+
+  echo -e "[user]\n\temail = $GIT_PERS" >~/.gitconfig-personal
+  echo -e "[user]\n\temail = $GIT_WORK" >~/.gitconfig-work
+
+  git config --global includeIf."gitdir:~/Documents/personal/".path "~/.gitconfig-personal"
+  git config --global includeIf."gitdir:~/Documents/work/".path "~/.gitconfig-work"
+
+  echo -e "${GREEN}Git identities configured! Personal: $GIT_PERSONAL_EMAIL | Work: $GIT_WORK_EMAIL${NC}"
+}
+
 # --- MAIN MENU ---
 clear
 echo -e "${GREEN}DEBIAN PROFESSIONAL DEPLOYMENT SYSTEM${NC}"
@@ -177,12 +195,12 @@ case $mode in
 1)
   MANUAL_MODE=false
   INSTALL_PICOM=true
-  install_core && install_nvidia && install_audio && install_postgres && install_node && install_docker && install_dev_apps
+  install_core && install_nvidia && install_audio && install_postgres && install_node && install_docker && install_dev_apps && config_git
   ;;
 2)
   MANUAL_MODE=false
   INSTALL_PICOM=false
-  install_core && install_audio && install_postgres && install_node && install_docker && install_dev_apps
+  install_core && install_audio && install_postgres && install_node && install_docker && install_dev_apps && config_git
   ;;
 3)
   MANUAL_MODE=true
@@ -193,6 +211,7 @@ case $mode in
   ask_user "Node?" && install_node
   ask_user "Docker?" && install_docker
   ask_user "Dev Apps?" && install_dev_apps
+  ask_user "Configure Git?" && config_git
   ;;
 *) exit 0 ;;
 esac

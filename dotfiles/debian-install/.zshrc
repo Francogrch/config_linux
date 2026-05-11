@@ -31,7 +31,7 @@ alias la='lsd -a'
 alias lla='lsd -la'
 alias charm='/opt/pycharm-2025.3.2.1/bin/pycharm'
 
-export PROJECT_PATHS="/home/franco/Documents/personal"
+export PROJECT_PATHS="$HOME/Documents/personal"
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_DEFAULT_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exlude .git"
@@ -52,7 +52,7 @@ source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 
 # fnm
-FNM_PATH="/home/franco/.local/share/fnm"
+FNM_PATH="$HOME/.local/share/fnm"
 if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
   eval "`fnm env`"
@@ -63,4 +63,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # opencode
-export PATH=/home/franco/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin":$PATH

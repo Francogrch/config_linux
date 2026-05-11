@@ -41,7 +41,7 @@ git clone <>
 
 cd config_linux/dotfiles/debian-install 
 chmod +x debian_install.sh
-
+./debian_install.sh
 ```
 
 ## Cosas que faltan
