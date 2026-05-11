@@ -12,7 +12,7 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"
 export GTK_THEME=Adwaita:dark
 
 #zstyle ':autocomplete:*' delay 0.1

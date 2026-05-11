@@ -89,7 +89,7 @@ install_dev_apps() {
   echo -e "${BLUE}Downloading Neovim...${NC}"
   sudo rm -f /usr/local/bin/nvim
   # Download directly to /usr/local/bin to avoid move errors
-  sudo curl -L https://github.com/neovim/neovim/releases/latest/download/nvim.appimage -o /usr/local/bin/nvim
+  sudo curl -L https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o /usr/local/bin/nvim
   sudo chmod +x /usr/local/bin/nvim
 
   # Vesktop

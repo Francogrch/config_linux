@@ -45,8 +45,7 @@ chmod +x debian_install.sh
 ```
 
 ## Cosas que faltan
-- Instalar postgres y configurar el usuario y la contraseña
-- Instalar nodejs, npm y pnpm
-- Instalar docker y docker compose
+- vlc
+
 
 
