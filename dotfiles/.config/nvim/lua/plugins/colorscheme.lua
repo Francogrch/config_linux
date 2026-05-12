@@ -2,26 +2,31 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		-- the colorscheme should be available when starting Neovim
-		-- "folke/tokyonight.nvim",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		opts = function(_, opts)
-			opts.transparent_background = true
-			opts.float = {
-				transparent = true, -- transparencia en ventanas flotantes
-				solid = false, -- estilo sólido para ventanas flotantes
-			}
-			local module = require("catppuccin.groups.integrations.bufferline")
-			if module then
-				module.get = module.get_theme
-			end
-			return opts
-		end,
+		lazy = false,
+		priority = 1000,
+		opts = {
+			transparent_background = true,
+			flavour = "mocha", -- Esto asegura que use Mocha por defecto
+			integrations = {
+				bufferline = true, -- LazyVim usará esto para aplicar los colores a tus pestañas
+				cmp = true,
+				gitsigns = true,
+				nvimtree = true,
+				treesitter = true,
+				notify = true,
+				mini = {
+					enabled = true,
+					indentscope_color = "",
+				},
+			},
+			float = {
+				transparent = true,
+				solid = false,
+			},
+		},
 		config = function(_, opts)
 			require("catppuccin").setup(opts)
-			-- load the colorscheme here
-			vim.cmd([[colorscheme catppuccin-mocha]])
+			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 }

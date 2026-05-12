@@ -1,30 +1,55 @@
 return {
 	{
-		"williamboman/mason.nvim",
-		version = "*",
+		"mason-org/mason.nvim",
+		-- Usamos build para asegurar que se instalen los binarios correctamente en Fedora
+		build = ":MasonUpdate",
+		opts = {
+			ui = {
+				border = "rounded",
+			},
+			ensure_installed = {
+				"prettierd", -- Formateador para React/Web
+				"prettier", -- Formateador fallback
+				"stylua", -- Formateador para Lua
+				"shfmt", -- Formateador para bash
+				"eslint_d", -- Linter para React/Web
+			},
+		},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
-		version = "1.26.0",
+		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			-- La lista de servidores que quieres que Mason instale automáticamente.
 			ensure_installed = {
+				-- Python & Django
+				"pyrefly",
+				"ruff",
+
+				-- Web & React
+				"vtsls",
+				"eslint",
 				"biome",
 				"html",
 				"cssls",
-				"jdtls",
-				"pyright",
-				"lemminx",
 				"emmet_ls",
-				"jsonls",
+
+				-- Config & Infra
 				"lua_ls",
-				"marksman",
+				"jsonls",
+				"yamlls",
 				"dockerls",
 				"docker_compose_language_service",
 				"bashls",
+				"marksman",
+
+				-- Otros
+				"jdtls",
+				"lemminx",
 				"sqlls",
-				"yamlls",
 			},
 		},
+		-- Este bloque previene que LazyVim intente cargar módulos inexistentes
+		config = function(_, opts)
+			require("mason-lspconfig").setup(opts)
+		end,
 	},
 }
