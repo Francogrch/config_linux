@@ -43,7 +43,7 @@ EOF"
               firefox-esr i3lock-fancy xinit x11-xserver-utils zsh thunar kitty flameshot blueman \
               x11-utils rofi unzip fzf bat fd-find lsd zoxide tree zsh-autosuggestions \
               zsh-syntax-highlighting libfuse2t64 rsync vim vlc chromium libreoffice obs-studio \
-              gnome-disk-utility easyeffects network-manager-gnome dunst lxpolkit xss-lock libnotify-bin"
+              gnome-disk-utility easyeffects network-manager-gnome dunst lxpolkit xss-lock libnotify-bin lazygit"
 
   [ "$INSTALL_PICOM" = true ] && PACKAGES="$PACKAGES picom"
   sudo apt install -y $PACKAGES
