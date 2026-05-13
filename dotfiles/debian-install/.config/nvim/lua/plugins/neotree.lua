@@ -15,6 +15,13 @@ return {
 			width = 30, -- Ejemplo de ancho
 			position = "right", -- Esto puede ayudar a reforzar la posición
 		},
+		filesystem = {
+			follow_current_file = {
+				enabled = true, -- Sincroniza el árbol con el buffer actual
+				leave_dirs_open = false, -- Cierra carpetas innecesarias para mantener orden
+			},
+			use_libuv_file_watcher = true, -- Actualiza el árbol si cambias archivos por fuera
+		},
 		-- Otros ajustes de Neo-tree aquí (ej. sources, renderer, etc.)
 	},
 }
