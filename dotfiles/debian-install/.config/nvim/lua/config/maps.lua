@@ -4,6 +4,9 @@ local function map(mode, lhs, rhs)
 	vim.keymap.set(mode, lhs, rhs, { silent = true })
 end
 
+-- Borrar palabra hacia atrás (Ctrl + Backspace)
+map("i", "<C-BS>", "<C-w>", { desc = "Borrar palabra hacia atrás" })
+
 -- Save
 map("n", "<C-s>", "<CMD>update<CR>", { desc = "Save" })
 
@@ -26,6 +29,11 @@ map("n", "<leader>p", "<CMD>split<CR>", { desc = "New windows" })
 map("n", "L", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
 map("n", "H", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 
+-- Navegación rápida por número
+for i = 1, 9 do
+	map("n", "<A-" .. i .. ">", "<cmd>BufferLineGoToBuffer " .. i .. "<CR>", { desc = "Buffer " .. i })
+end
+
 -- PLUGINS
 -- NeoTree
 map("n", "<leader>e", "<CMD>Neotree toggle<CR>")
@@ -37,3 +45,6 @@ map("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
 map("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
 map("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 map("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+
+-- Abrir Lazygit con Snacks
+map("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
